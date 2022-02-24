@@ -7,4 +7,9 @@ FROM registry.access.redhat.com/ubi8/ubi
 
 RUN \
 	yum update -y \
+	yum install -y cmake *mesa* libxcb* \
+	yum module reset postgresql -y \
+	yum module enable postgresql:13 -y \
+	yum install postgresql-devel postgresql-server-devel -y 
+	
 
