@@ -6,14 +6,16 @@
 FROM registry.access.redhat.com/ubi8/ubi
 
 RUN \
-	yum update -y \
-	yum install -y wget make cmake *mesa* libxcb* xz gcc \
-	yum install llvm-toolset -y \
-	yum install gdb valgrind systemtap ltrace strace -y \
-	yum module reset postgresql -y \
-	yum module enable postgresql:13 -y \
-	yum install postgresql-devel postgresql-server-devel -y \
-	wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz \
-	tar -xf qt-everywhere-src-5.15.2 \
-	rm qt-everywhere-src-5.15.2.tar.xf \
+	yum update -y && \
+	yum install -y wget make cmake *mesa* libxcb* xz gcc && \
+	yum group install "Development Tools" -y && \
+	yum module enable llvm-toolset:rhel8 -y && \
+	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ -y && \
+	yum install gdb valgrind systemtap ltrace strace -y && \
+	yum module reset postgresql -y && \
+	yum module enable postgresql:13 -y && \
+	yum install postgresql-devel postgresql-server-devel -y && \
+	wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz && \
+	tar -xf qt-everywhere-src-5.15.2 && \
+	rm qt-everywhere-src-5.15.2.tar.xf && \
 	cd /opt/qt-everywhere-src-5.15.2 
