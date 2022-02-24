@@ -9,7 +9,7 @@ RUN \
 	yum update -y && \
 	yum install yum-utils -y && \
 	yum-config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms && \
-	yum install wget make cmake *mesa* libxcb* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel -y && \
+	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel -y && \
 	alternatives --set python /usr/bin/python2 && \
 	yum group install "Development Tools" -y && \
 	yum module enable llvm-toolset:rhel8 -y && \
