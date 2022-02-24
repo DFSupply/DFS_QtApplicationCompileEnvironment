@@ -7,11 +7,15 @@ FROM registry.access.redhat.com/ubi8/ubi
 
 RUN \
 	yum update -y && \
-	yum install wget make cmake *mesa* libxcb* xz gcc gcc-c++ -y && \
+	yum install yum-utils -y && \
+	yum-config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms && \
+	yum install wget make cmake *mesa* libxcb* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel -y && \
+	alternatives --set python /usr/bin/python2 && \
 	yum group install "Development Tools" -y && \
 	yum module enable llvm-toolset:rhel8 -y && \
 	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ -y && \
 	yum install gdb valgrind systemtap ltrace strace -y && \
+	yum install gperf libX11 -y && \
 	yum module reset postgresql -y && \
 	yum module enable postgresql:13 -y && \
 	yum install postgresql-devel postgresql-server-devel libpq -y && \
@@ -20,11 +24,11 @@ RUN \
 	tar -xf qt-everywhere-src-5.15.2.tar.xz && \
 	rm qt-everywhere-src-5.15.2.tar.xz && \
 	cd /opt/qt-everywhere-src-5.15.2 && \
-	./configure -opensource -confirm-license -release -static -nomake tests -nomake examples -qt-zlib -qt-libjpg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
+	./configure -opensource -confirm-license -release -static -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	make -j $(($(nproc)+4)) && \
 	make install && \
 	cd /opt && \
-	rm -rf qt-everywhere-src-5.15.2 && \
+	rm -rf qt-everywhere-src-5.15.2
 	
-	
-	
+ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
+ENTRYPOINT ["/bin/bash"]
