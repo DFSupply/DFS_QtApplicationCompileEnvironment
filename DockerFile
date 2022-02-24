@@ -9,7 +9,7 @@ RUN \
 	yum update -y && \
 	yum install yum-utils -y && \
 	yum-config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms && \
-	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel -y && \
+	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel ruby meson -y && \
 	alternatives --set python /usr/bin/python2 && \
 	yum group install "Development Tools" -y && \
 	yum module enable llvm-toolset:rhel8 -y && \
@@ -19,6 +19,11 @@ RUN \
 	yum module reset postgresql -y && \
 	yum module enable postgresql:13 -y && \
 	yum install postgresql-devel postgresql-server-devel libpq -y && \
+	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y && \
+	yum install p7zip lzip -y
+
+# Build Qt Source (native builds)
+RUN \
 	cd /opt/ && \
 	wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz && \
 	tar -xf qt-everywhere-src-5.15.2.tar.xz && \
@@ -31,6 +36,25 @@ RUN \
 	cd /opt && \
 	rm -rf qt-everywhere-src-5.15.2 && \
 	export LDFLAGS="-L$(qmake -query QT_INSTALL_LIBS)"
+	
+# Build gdk-pixbuf (needed for MXE + not available in any RedHat package)
+RUN \
+	cd /opt/ && \
+	wget -q https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz && \
+	tar -xf gdk-pixbuf-2.42.6.tar.xz && \
+	rm gdk-pixbuf-2.42.6.tar.xz && \
+	cd /opt/gdk-pixbuf-2.42.6 && \
+	meson --prefix=/usr --buildtype=release --wrap-mode=nofallback .. && \
+	ninja && \
+	ninja install
+	
+# Build Qt in MXE (cross-platform)
+RUN \
+	cd /opt/ && \
+	git clone https://github.com/mxe/mxe.git && \
+	cd mxe && \
+	make MXE_TARGETS=x86_64-w64-mingw32.static qt5
+
 	
 ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
 ENTRYPOINT ["/bin/bash"]
