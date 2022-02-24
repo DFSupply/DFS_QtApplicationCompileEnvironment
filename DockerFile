@@ -20,7 +20,7 @@ RUN \
 	yum module enable postgresql:13 -y && \
 	yum install postgresql-devel postgresql-server-devel libpq -y && \
 	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y && \
-	yum install p7zip lzip -y
+	yum install p7zip lzip perl-IPC-Cmd -y
 
 # Build Qt Source (native builds)
 RUN \

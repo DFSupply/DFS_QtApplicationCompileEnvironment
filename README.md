@@ -1,7 +1,11 @@
 # DFS_QtApplicationCompileEnvironment
 Compile Environment for Qt Applications in Linux
 
-Tested and built for RHEL 8.x
+Capable of building for:
+ - Linux x86_64
+ - Windows x86_64
+
+Tested and built to run under RHEL 8.x
 
 ```
 subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
