@@ -7,9 +7,13 @@ FROM registry.access.redhat.com/ubi8/ubi
 
 RUN \
 	yum update -y \
-	yum install -y cmake *mesa* libxcb* \
+	yum install -y wget make cmake *mesa* libxcb* xz \
+	yum group install "Development Tools" -y \
+	yum install llvm-toolset -y \
 	yum module reset postgresql -y \
 	yum module enable postgresql:13 -y \
-	yum install postgresql-devel postgresql-server-devel -y 
-	
-
+	yum install postgresql-devel postgresql-server-devel -y \
+	wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz \
+	tar -xf qt-everywhere-src-5.15.2 \
+	rm -Rf qt-everywhere-src-5.15.2 \
+	cd /opt/qt-everywhere-src-5.15.2 
