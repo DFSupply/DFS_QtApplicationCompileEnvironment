@@ -25,7 +25,8 @@ RUN \
 	rm qt-everywhere-src-5.15.2.tar.xz && \
 	cd /opt/qt-everywhere-src-5.15.2 && \
 	./configure -opensource -confirm-license -release -static -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
-	make -j $($(nproc)) && \
+	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
+	make -j $($(nproc)) NINJAJOBS=-j$($(nproc))  && \
 	make install && \
 	cd /opt && \
 	rm -rf qt-everywhere-src-5.15.2 && \
