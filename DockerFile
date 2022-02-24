@@ -8,8 +8,8 @@ FROM registry.access.redhat.com/ubi8/ubi
 RUN \
 	yum update -y \
 	yum install -y wget make cmake *mesa* libxcb* xz gcc \
-	yum group install "Development Tools" -y \
 	yum install llvm-toolset -y \
+	yum install gdb valgrind systemtap ltrace strace -y \
 	yum module reset postgresql -y \
 	yum module enable postgresql:13 -y \
 	yum install postgresql-devel postgresql-server-devel -y \
