@@ -9,11 +9,11 @@ RUN \
 	yum update -y && \
 	yum install yum-utils -y && \
 	yum-config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms && \
-	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel -y && \
+	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel -y && \
 	alternatives --set python /usr/bin/python2 && \
 	yum group install "Development Tools" -y && \
 	yum module enable llvm-toolset:rhel8 -y && \
-	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static	 -y && \
+	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
 	yum install gdb valgrind systemtap ltrace strace -y && \
 	yum install gperf libX11 -y && \
 	yum module reset postgresql -y && \
