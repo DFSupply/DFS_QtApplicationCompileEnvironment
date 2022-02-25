@@ -1,4 +1,6 @@
 # DFS_QtApplicationCompileEnvironment
+[![Build Status](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_apis/build/status/DFSupply.DFS_QtApplicationCompileEnvironment?branchName=main)](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_build/latest?definitionId=1&branchName=main)
+
 Compile Environment for Qt Applications in Linux
 
 Capable of building for:
