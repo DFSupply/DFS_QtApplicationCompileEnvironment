@@ -1,7 +1,3 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
 - main
 
@@ -16,6 +12,7 @@ stages:
   displayName: Build image
   jobs:
   - job: Build
+    timeoutInMinutes: 400
     displayName: Build
     pool: Default
     steps:
