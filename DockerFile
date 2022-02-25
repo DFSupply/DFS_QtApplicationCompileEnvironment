@@ -29,12 +29,10 @@ RUN \
 	tar -xf qt-everywhere-src-5.15.2.tar.xz && \
 	rm qt-everywhere-src-5.15.2.tar.xz && \
 	cd /opt/qt-everywhere-src-5.15.2 && \
-	./configure -opensource -confirm-license -release -static -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
+	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
-	make -j $($(nproc)) NINJAJOBS=-j$($(nproc))  && \
+	make -j$(nproc) NINJAJOBS=-j30 && \
 	make install && \
-	cd /opt && \
-	rm -rf qt-everywhere-src-5.15.2 && \
 	export LDFLAGS="-L$(qmake -query QT_INSTALL_LIBS)"
 	
 # Build gdk-pixbuf (needed for MXE + not available in any RedHat package)
@@ -44,7 +42,8 @@ RUN \
 	tar -xf gdk-pixbuf-2.42.6.tar.xz && \
 	rm gdk-pixbuf-2.42.6.tar.xz && \
 	cd /opt/gdk-pixbuf-2.42.6 && \
-	meson --prefix=/usr --buildtype=release --wrap-mode=nofallback .. && \
+	meson --prefix=/usr --buildtype=release --wrap-mode=nofallback ./build && \
+	cd build && \
 	ninja && \
 	ninja install
 	
