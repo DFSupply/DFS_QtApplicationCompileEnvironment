@@ -11,7 +11,7 @@ stages:
 - stage: Build
   displayName: Build Container Images
   jobs:
-  - job: Build Linux Container
+  - job: Build_Linux_Container
     timeoutInMinutes: 400
     displayName: Build Linux Container
     pool:
