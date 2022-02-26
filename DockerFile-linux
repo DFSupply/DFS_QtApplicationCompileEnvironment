@@ -33,7 +33,6 @@ RUN \
 	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	make -j$(nproc) NINJAJOBS=-j30 && \
 	make install && \
-	export LDFLAGS="-L$(qmake -query QT_INSTALL_LIBS)"
 	
 # Build gdk-pixbuf (needed for MXE + not available in any RedHat package)
 RUN \
@@ -56,4 +55,5 @@ RUN \
 
 	
 ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
+ENV LDFLAGS="$(qmake -query QT_INSTALL_LIBS)"
 ENTRYPOINT ["/bin/bash"]

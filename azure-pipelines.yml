@@ -9,11 +9,11 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build image
+  displayName: Build Container Images
   jobs:
-  - job: Build
+  - job: Build Linux Container
     timeoutInMinutes: 400
-    displayName: Build
+    displayName: Build Linux Container
     pool:
       name: Default
       demands:
@@ -24,6 +24,6 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/DockerFile'
+        dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         tags: |
           $(tag)
