@@ -2,7 +2,6 @@
 # DF Supply, Inc.
 # Scott Moore
 # 2/24/2022
-
 FROM registry.access.redhat.com/ubi8/ubi
 
 RUN \
