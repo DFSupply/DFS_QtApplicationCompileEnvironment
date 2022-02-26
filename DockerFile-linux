@@ -55,5 +55,4 @@ RUN \
 
 	
 ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
-ENV LDFLAGS="$(qmake -query QT_INSTALL_LIBS)"
 ENTRYPOINT ["/bin/bash"]
