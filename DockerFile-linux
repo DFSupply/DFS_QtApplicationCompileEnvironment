@@ -32,7 +32,7 @@ RUN \
 	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	make -j$(nproc) NINJAJOBS=-j30 && \
-	make install && \
+	make install
 	
 # Build gdk-pixbuf (needed for MXE + not available in any RedHat package)
 RUN \
