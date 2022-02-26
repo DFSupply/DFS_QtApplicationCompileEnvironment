@@ -12,6 +12,5 @@ RUN powershell "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.Se
 RUN choco "install visualstudio2019buildtools"
 
 # Build Qt Source (native builds)
-RUN \
-	powershell "Invoke-WebRequest -Uri http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip -OutFile qt-everywhere-src-5.15.2.zip" && \
-	powershell "Expand-Archive -LiteralPath 'c:\qt-everywhere-src-5.15.2.zip' -DestinationPath 'C:\qt5test\'"
+RUN powershell "Invoke-WebRequest -Uri http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip -OutFile qt-everywhere-src-5.15.2.zip"
+RUN powershell "Expand-Archive -LiteralPath 'c:\qt-everywhere-src-5.15.2.zip' -DestinationPath 'C:\qt5test\'"
