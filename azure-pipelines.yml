@@ -14,7 +14,11 @@ stages:
   - job: Build
     timeoutInMinutes: 400
     displayName: Build
-    pool: Default
+    pool:
+      name: Default
+      demands:
+      - Agent.OS -equals Linux
+      - Agent.OSArchitecture -equals X64
     steps:
     - task: Docker@2
       displayName: Build an image
