@@ -8,6 +8,7 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 # Install chocolatey
 RUN \
 	powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && \
+	refreshenv && \
 	choco feature enable -n=allowGlobalConfirmation
 
 # Install MSVC 2019
