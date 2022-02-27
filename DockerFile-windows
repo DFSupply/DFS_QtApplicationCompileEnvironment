@@ -4,7 +4,7 @@
 # Scott Moore
 # 2/26/2022
 
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 SHELL ["cmd", "/S", "/C"]
 
@@ -17,6 +17,9 @@ RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     
 # Install Curl
 RUN choco install curl
+
+# Install .net 4.8
+RUN choco install dotnetfx
 
 # Install MSVC 2019
 RUN `
