@@ -6,15 +6,19 @@
 
 FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
 
+SHELL ["cmd", "/S", "/C"]
+
 # Install chocolatey
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     $Env:chocolateyVersion = '0.10.15' ; \
     $Env:chocolateyUseWindowsCompression = 'false' ; \
     "[Net.ServicePointManager]::SecurityProtocol = \"tls12, tls11, tls\"; iex ((New-Object System.Net.WebClient).DownloadString('http://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin" && \
     choco feature enable -n=allowGlobalConfirmation
+    
+# Install Curl
+RUN choco install curl
 
 # Install MSVC 2019
-SHELL ["cmd", "/S", "/C"]
 RUN `
     # Download the Build Tools bootstrapper.
     curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.exe `
