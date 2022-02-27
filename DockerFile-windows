@@ -6,15 +6,32 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Install chocolatey
-RUN powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+RUN \
+	powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && \
+	choco feature enable -n=allowGlobalConfirmation
 
 # Install MSVC 2019
-RUN powershell -Command "choco install visualstudio2019buildtools -n"
+RUN choco install visualstudio2019buildtools
+
+# Install Git
+RUN \
+	choco install git && \
+	refreshenv
+	
+# Install JOM for multi-core builds
+RUN \
+	choco install jom && \
+	refreshenv
 
 RUN \
 	mkdir build-env && \
 	cd build-env
-
+	
 # Build Qt Source (native builds)
 RUN \
-	powershell "Invoke-WebRequest -Uri http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip -OutFile qt-everywhere-src-5.15.2.zip"
+	powershell -Command "Invoke-WebRequest -Uri http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip -OutFile qt-everywhere-src-5.15.2.zip" && \
+	mkdir qt-5 && \
+	powershell -Command "Expand-Archive C:\build-env\qt-everywhere-src-5.15.2.zip -DestinationPath C:\buld-env\qt-5" && \
+	cd qt-5 && \
+	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
+	jom
