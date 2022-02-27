@@ -13,9 +13,10 @@ Linux Build Environment:
 ```
 subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
 yum install podman -y
-podman build -f DockerFile https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
+podman build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
 podman run -it qt-build-env:latest
 
+----inside of container----
 cd %your source directory%
 qmake
 make -j$(nproc)
@@ -31,5 +32,11 @@ make -j$(nproc)
 
 Windows Build Environment (assume docker EE installed:
 ```
+docker build -f DockerFile-windows https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
+docker run -it qt-build-env:latest
 
+----inside of container----
+cd %your source directory%
+qmake
+jom
 ```
