@@ -10,6 +10,7 @@ Capable of building for:
 Tested and built to run under RHEL 8.x + WIN10
 
 Linux Build Environment:
+***Licensing restrictions require to be running on RHEL 8.x with an attached subscription***
 ```
 subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
 yum install podman -y
@@ -30,7 +31,8 @@ cd %your source directory%
 make -j$(nproc)
 ```
 
-Windows Build Environment (assume docker EE installed:
+Windows Build Environment (assume docker EE installed):
+***Licensing restrictions require to be running on Windows Server 2022***
 ```
 docker build -f DockerFile-windows https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
 docker run -it qt-build-env:latest
