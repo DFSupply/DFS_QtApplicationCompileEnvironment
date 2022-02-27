@@ -1,4 +1,5 @@
 # Compile Environment for Qt Applications (windows)
+# Use for apps that require QtWebEngine, otherwise recommend using the linux container with MXE
 # DF Supply, Inc.
 # Scott Moore
 # 2/26/2022

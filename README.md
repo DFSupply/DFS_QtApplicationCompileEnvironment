@@ -9,14 +9,27 @@ Capable of building for:
 
 Tested and built to run under RHEL 8.x + WIN10
 
-Linux Build Environment (can cross compile for Windows **IF you do not require QtWebEngine**)
+Linux Build Environment:
 ```
 subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
 yum install podman -y
 podman build -f DockerFile https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
 podman run -it qt-build-env:latest
+
+cd %your source directory%
+qmake
+make -j$(nproc)
 ```
-To cross-compile in the linux environment:
- - export PATH=/opt/mxe/usr/bin:$PATH
- - run qmake from: /opt/mxe/usr/bin/x86_64-w64-mingw32.static-qmake-qt5
- - then run make as usual
+
+To cross-compile in the linux environment (if you **do not** require QtWebEngine):
+```
+export PATH=/opt/mxe/usr/bin:$PATH
+cd %your source directory%
+/opt/mxe/usr/bin/x86_64-w64-mingw32.static-qmake-qt5
+make -j$(nproc)
+```
+
+Windows Build Environment (assume docker EE installed:
+```
+
+```
