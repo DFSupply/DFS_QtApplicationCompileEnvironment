@@ -29,9 +29,9 @@ RUN \
 	
 # Build Qt Source (native builds)
 RUN \
-	powershell -Command "Invoke-WebRequest -Uri http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.zip -OutFile qt-everywhere-src-5.15.2.zip" && \
-	mkdir qt-5 && \
-	powershell -Command "Expand-Archive C:\build-env\qt-everywhere-src-5.15.2.zip -DestinationPath C:\buld-env\qt-5" && \
-	cd qt-5 && \
+	git clone https://github.com/qt/qt5 && \
+	cd qt5 && \
+	git checkout 5.15.2 && \
+	git submodule update --init --recursive && \
 	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	jom
