@@ -27,3 +27,19 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         tags: |
           $(tag)
+  - job: Build_Windows_Container
+    timeoutInMinutes: 400
+    displayName: Build Windows Container
+    pool:
+      name: Default
+      demands:
+      - Agent.OS -equals Windows_NT
+      - Agent.OSArchitecture -equals X64
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
+        tags: |
+          $(tag)
