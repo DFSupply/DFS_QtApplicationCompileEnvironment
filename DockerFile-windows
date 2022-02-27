@@ -6,9 +6,10 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Install chocolatey
-RUN \
-	powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && \
-	powershell -Command "choco feature enable -n=allowGlobalConfirmation"
+RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+    $Env:chocolateyVersion = '0.10.15' ; \
+    $Env:chocolateyUseWindowsCompression = 'false' ; \
+    "[Net.ServicePointManager]::SecurityProtocol = \"tls12, tls11, tls\"; iex ((New-Object System.Net.WebClient).DownloadString('http://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
 # Install MSVC 2019
 RUN powershell -Command "choco install visualstudio2019buildtools"
