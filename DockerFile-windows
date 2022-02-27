@@ -7,17 +7,19 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Install chocolatey
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+    $Env:chocolateyVersion = '0.10.15' ; \
     $Env:chocolateyUseWindowsCompression = 'false' ; \
-    "[Net.ServicePointManager]::SecurityProtocol = \"tls12, tls11, tls\"; iex ((New-Object System.Net.WebClient).DownloadString('http://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+    "[Net.ServicePointManager]::SecurityProtocol = \"tls12, tls11, tls\"; iex ((New-Object System.Net.WebClient).DownloadString('http://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin" && \
+    choco feature enable -n=allowGlobalConfirmation
 
 # Install MSVC 2019
-RUN powershell -Command "choco install visualstudio2019buildtools"
+RUN choco install visualstudio2019buildtools
 
 # Install Git
-RUN	powershell -Command "choco install git"
+RUN	choco install git
 		
 # Install JOM for multi-core builds
-RUN powershell -Command "choco install jom"
+RUN choco install jom
 
 # Setup build directories
 RUN \
