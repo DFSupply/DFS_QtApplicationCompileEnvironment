@@ -22,10 +22,11 @@ RUN choco install curl
 RUN choco install dotnetfx
 
 # Install MSVC 2019
-RUN \
-	curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.exe && \
-	start /w vs_buildtools.exe --quiet --wait --norestart --nocache modify --installPath "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools" --add Microsoft.VisualStudio.Workload.AzureBuildTools --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 --remove Microsoft.VisualStudio.Component.Windows81SDK && \
-	del /q vs_buildtools.exe
+RUN choco install visualstudio2019buildtools && \
+	choco install visualstudio2019-workload-vctools && \
+	choco install visualstudio2019-workload-universal && \
+	choco install visualstudio2019-workload-nativedesktop && \
+	choco install visualstudio2019-workload-universalbuildtools
 
 # Install Git
 RUN	choco install git
