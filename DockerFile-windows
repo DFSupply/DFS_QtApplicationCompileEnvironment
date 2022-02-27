@@ -8,22 +8,18 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 # Install chocolatey
 RUN \
 	powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && \
-	refreshenv && \
-	choco feature enable -n=allowGlobalConfirmation
+	powershell -Command "choco feature enable -n=allowGlobalConfirmation"
 
 # Install MSVC 2019
-RUN choco install visualstudio2019buildtools
+RUN powershell -Command "choco install visualstudio2019buildtools"
 
 # Install Git
-RUN \
-	choco install git && \
-	refreshenv
-	
+RUN	powershell -Command "choco install git"
+		
 # Install JOM for multi-core builds
-RUN \
-	choco install jom && \
-	refreshenv
+RUN powershell -Command "choco install jom"
 
+# Setup build directories
 RUN \
 	mkdir build-env && \
 	cd build-env
