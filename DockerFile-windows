@@ -14,6 +14,7 @@ RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     choco feature enable -n=allowGlobalConfirmation
 
 # Install MSVC 2019
+SHELL ["cmd", "/S", "/C"]
 RUN `
     # Download the Build Tools bootstrapper.
     curl -SL --output vs_buildtools.exe https://aka.ms/vs/16/release/vs_buildtools.exe `
