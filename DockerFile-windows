@@ -41,12 +41,3 @@ RUN choco install strawberryperl
 RUN \
 	mkdir build-env && \
 	cd build-env
-	
-# Build Qt Source (native builds)
-RUN \
-	git clone https://github.com/qt/qt5 && \
-	cd qt5 && \
-	git checkout 5.15.2 && \
-	git submodule update --init --recursive && \
-	configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc && \
-	jom
