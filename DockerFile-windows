@@ -52,6 +52,7 @@ RUN \
 # Build Qt Source
 RUN \
 	start "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat" && \
+	cd C:\build-env\qt5 && \
 	configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc && \
 	jom
 	
