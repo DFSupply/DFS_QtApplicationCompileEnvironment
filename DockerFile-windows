@@ -65,20 +65,8 @@ RUN \
 # 	vcpkg integrate install
 
 SHELL ["powershell"]
-
-RUN \
-	function Invoke-CmdScript { \
-		param( \
-			[String] $scriptName \
-		) \
-		$cmdLine = """$scriptName"" $args & set" \
-		& $Env:SystemRoot\system32\cmd.exe /c $cmdLine | \
-		select-string '^([^=]*)=(.*)$' | foreach-object { \
-			$varName = $_.Matches[0].Groups[1].Value \
-			$varValue = $_.Matches[0].Groups[2].Value \
-			set-item Env:$varName $varValue \
-		} \
-	}
+RUN Install-PackageProvider NuGet -Force
+RUN Install-Module -Name WintellectPowerShell -Force
 
 # Build Qt Source
 RUN \
