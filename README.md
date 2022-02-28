@@ -7,7 +7,7 @@ Capable of building for:
  - Linux x86_64
  - Windows x86_64
 
-Tested and built to run under RHEL 8.x + WIN10
+Tested and built to run under RHEL 8.x + Windows Server 2022
 
 Linux Build Environment:
 ***Licensing restrictions require to be running on RHEL 8.x with an attached subscription***
