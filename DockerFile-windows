@@ -41,3 +41,18 @@ RUN choco install strawberryperl
 RUN \
 	mkdir build-env && \
 	cd build-env
+
+# Download Qt Source
+RUN \
+	git clone https://github.com/qt/qt5 && \
+	cd qt5 && \
+	git checkout 5.15.2 && \
+	git submodule update --init --recursive
+	
+# Build Qt Source
+RUN \
+	start "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat" && \
+	configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc && \
+	jom
+	
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
