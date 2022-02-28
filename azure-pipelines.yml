@@ -11,22 +11,6 @@ stages:
 - stage: Build
   displayName: Build Container Images
   jobs:
-  - job: Build_Linux_Container
-    timeoutInMinutes: 400
-    displayName: Build Linux Container
-    pool:
-      name: Default
-      demands:
-      - Agent.OS -equals Linux
-      - Agent.OSArchitecture -equals X64
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
-        tags: |
-          $(tag)
   - job: Build_Windows_Container
     timeoutInMinutes: 400
     displayName: Build Windows Container
@@ -41,5 +25,21 @@ stages:
       inputs:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
+        tags: |
+          $(tag)
+  - job: Build_Linux_Container
+    timeoutInMinutes: 400
+    displayName: Build Linux Container
+    pool:
+      name: Default
+      demands:
+      - Agent.OS -equals Linux
+      - Agent.OSArchitecture -equals X64
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         tags: |
           $(tag)
