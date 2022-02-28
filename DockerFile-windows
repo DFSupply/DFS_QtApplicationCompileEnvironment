@@ -36,15 +36,17 @@ RUN choco install jom
 RUN choco install strawberryperl
 
 # Install Ruby
-# RUN choco install ruby
+RUN choco install ruby
 
 # Install Python
-# RUN choco install python2
+RUN choco install python2
+
+# Install sed
+RUN choco install sed
 
 # Setup build directories
 RUN \
-	mkdir build-env && \
-	cd build-env
+	mkdir build-env
 
 # Download Qt Source
 #RUN \
@@ -62,13 +64,30 @@ RUN \
  	vcpkg install zlib && \
  	vcpkg install libpq && \
 	vcpkg install qt5:x64-windows && \
+	vcpkg install qt5-3d:x64-windows && \
+	vcpkg install qt5-activeqt:x64-windows && \
+	vcpkg install qt5-charts:x64-windows && \
+	vcpkg install qt5-declarative:x64-windows && \
+	vcpkg install qt5-graphicaleffects:x64-windows && \
+	vcpkg install qt5-location:x64-windows && \
+	vcpkg install qt5-script:x64-windows && \
+	vcpkg install qt5-svg:x64-windows && \
+	vcpkg install qt5-tools:x64-windows && \
+	vcpkg install qt5-translations:x64-windows && \
+	vcpkg install qt5-webchannel:x64-windows && \
+	vcpkg install qt5-webengine:x64-windows && \
+	vcpkg install qt5-webglplugin:x64-windows && \
+	vcpkg install qt5-websockets:x64-windows && \
+	vcpkg install qt5-webview:x64-windows && \
+	vcpkg install qt5-winextras:x64-windows && \
+	vcpkg install qt5-xmlpatterns && \
 	vcpkg integrate install
 
 # Bootstrapping msvc tools
 SHELL ["powershell"]
 RUN Install-PackageProvider NuGet -Force
 RUN Install-Module -Name WintellectPowerShell -Force
-# RUN Invoke-CmdScript ${VSBUILDPATH}
+RUN rm C:\vcpkg\installed\x64-windows\tools\qt5\bin\qt.conf
 
 	
-ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat"]
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]]

@@ -39,6 +39,6 @@ docker run -it qt-build-env:latest
 
 ----inside of container----
 cd %your source directory%
-qmake
+c:\vcpkg\installed\x64-windows\tools\qt5\bin\qmake.exe %file.pro%
 jom
 ```
