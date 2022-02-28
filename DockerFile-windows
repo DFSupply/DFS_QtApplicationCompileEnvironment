@@ -66,23 +66,21 @@ RUN \
 
 RUN \
 	powershell -Command function Invoke-CmdScript { \
-	  param( \
-	    [String] $scriptName \
-	  ) \
-	  $cmdLine = """$scriptName"" $args & set" \
-	  & $Env:SystemRoot\system32\cmd.exe /c $cmdLine | \
-	  select-string '^([^=]*)=(.*)$' | foreach-object { \
-	    $varName = $_.Matches[0].Groups[1].Value \
-	    $varValue = $_.Matches[0].Groups[2].Value \
-	    set-item Env:$varName $varValue \
-	  } \
+		param( \
+			[String] $scriptName \
+		) \
+		$cmdLine = """$scriptName"" $args & set" \
+		& $Env:SystemRoot\system32\cmd.exe /c $cmdLine | \
+		select-string '^([^=]*)=(.*)$' | foreach-object { \
+			$varName = $_.Matches[0].Groups[1].Value \
+			$varValue = $_.Matches[0].Groups[2].Value \
+			set-item Env:$varName $varValue \
+		} \
 	}
-	
 
 # Build Qt Source
-# RUN ["c:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat"]
 RUN \
-	powershell Invoke-CmdScript "c:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && \
+	powershell -Command Invoke-CmdScript "c:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && \
 	powershell -Command configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc
 #	jom
 	
