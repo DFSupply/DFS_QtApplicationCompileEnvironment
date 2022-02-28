@@ -52,7 +52,7 @@ RUN \
 #	cd qt5 && \
 #	git checkout 5.15.2 && \
 #	git submodule update --init --recursive
-	
+
 # vcpkg and required packages
 RUN \
  	git clone https://github.com/microsoft/vcpkg && \
@@ -71,4 +71,4 @@ RUN Install-Module -Name WintellectPowerShell -Force
 # RUN Invoke-CmdScript ${VSBUILDPATH}
 
 	
-ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat"]
