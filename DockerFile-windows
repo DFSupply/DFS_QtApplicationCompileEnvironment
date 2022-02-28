@@ -35,6 +35,12 @@ RUN choco install jom
 # Install Perl
 RUN choco install strawberryperl
 
+# Install Ruby
+# RUN choco install ruby
+
+# Install Python
+# RUN choco install python2
+
 # Setup build directories
 RUN \
 	mkdir build-env && \
@@ -47,10 +53,23 @@ RUN \
 	git checkout 5.15.2 && \
 	git submodule update --init --recursive
 	
+# vcpkg and required packages
+# RUN \
+# 	cd .. && \
+# 	git clone https://github.com/microsoft/vcpkg && \
+# 	cd vcpkg && \
+# 	bootstrap-vcpkg.bat && \
+# 	vcpkg install openssl && \
+# 	vcpkg install zlib && \
+# 	vcpkg install libpq && \
+# 	vcpkg integrate install
+	
+ENV VS_INSTALL_PATH "c:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\"
+	
 # Build Qt Source
 RUN \
-	"%VSINSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat" && \
+	${VS_INSTALL_PATH}\vcvars64.bat && \
 	configure.bat -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc && \
 	jom
 	
-ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
