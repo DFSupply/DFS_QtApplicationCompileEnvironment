@@ -37,10 +37,6 @@ RUN choco install jom
 # Install Perl
 RUN choco install strawberryperl
 
-RUN ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
-
-RUN echo %cd%
-
 # Setup build directories
 RUN \
 	mkdir build-env && \
@@ -55,6 +51,7 @@ RUN \
 	
 # Build Qt Source
 RUN \
+	"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat" && \
 	configure.bat -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc && \
 	jom
 	
