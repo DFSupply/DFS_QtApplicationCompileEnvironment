@@ -64,8 +64,10 @@ RUN \
 # 	vcpkg install libpq && \
 # 	vcpkg integrate install
 
+SHELL ["powershell"]
+
 RUN \
-	powershell -Command function Invoke-CmdScript { \
+	function Invoke-CmdScript { \
 		param( \
 			[String] $scriptName \
 		) \
@@ -80,8 +82,8 @@ RUN \
 
 # Build Qt Source
 RUN \
-	powershell -Command Invoke-CmdScript "c:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && \
-	powershell -Command configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc
+	Invoke-CmdScript "c:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && \
+	configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc
 #	jom
 	
 ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
