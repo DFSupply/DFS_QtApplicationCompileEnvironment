@@ -64,15 +64,17 @@ RUN \
 # 	vcpkg install libpq && \
 # 	vcpkg integrate install
 
+ARG VSBUILDPATH="c:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build/vcvars64.bat"
+
 # Bootstrapping msvc tools
 SHELL ["powershell"]
 RUN Install-PackageProvider NuGet -Force
 RUN Install-Module -Name WintellectPowerShell -Force
-RUN Invoke-CmdScript "c:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Auxiliary/Build/vcvars64.bat"
+RUN Invoke-CmdScript ${VSBUILDPATH}
 
 
 # Build Qt Source
-RUN	configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc
+RUN	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc
 #	jom
 	
 ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\Common7\\Tools\\VsDevCmd.bat"]
