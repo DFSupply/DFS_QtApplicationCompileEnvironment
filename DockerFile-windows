@@ -20,11 +20,9 @@ RUN choco install curl
 RUN choco install dotnetfx
 
 # Install MSVC 2019
-RUN choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.ATLMFC --includeRecommended --includeOptional" && \
-	choco install visualstudio2019-workload-vctools --package-parameters "--add Microsoft.VisualStudio.Component.VC.ATLMFC --includeRecommended --includeOptional" && \
-	choco install visualstudio2019-workload-universal --package-parameters "--add Microsoft.VisualStudio.Component.VC.ATLMFC --includeRecommended --includeOptional" && \
-	choco install visualstudio2019-workload-nativedesktop --package-parameters "--add Microsoft.VisualStudio.Component.VC.ATLMFC --includeRecommended --includeOptional" && \
-	choco install visualstudio2019-workload-universalbuildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.ATLMFC --includeRecommended --includeOptional"
+RUN \
+	choco install visualstudio2019buildtools && \
+	choco install visualstudio2019community --package-parameters "--allWorkloads --includeRecommended --includeOptional"
 
 # Install Git
 RUN	choco install git
