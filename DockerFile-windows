@@ -6,8 +6,6 @@
 
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
-SHELL ["cmd", "/S", "/C"]
-
 # Install chocolatey
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     $Env:chocolateyVersion = '0.10.15' ; \
@@ -51,7 +49,7 @@ RUN \
 	
 # Build Qt Source
 RUN \
-	"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Common7\Tools\VsDevCmd.bat" && \
+	"%VSINSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat" && \
 	configure.bat -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite -platform=win32-msvc && \
 	jom
 	
