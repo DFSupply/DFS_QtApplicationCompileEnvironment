@@ -21,10 +21,12 @@ stages:
       - Agent.OSArchitecture -equals X64
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build the windows image
       inputs:
         command: build
+        repository: 'qt-build-env-windows'
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
+        containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
           $(tag)
   - job: Build_Linux_Container
@@ -40,7 +42,7 @@ stages:
       displayName: Build/Push the linux image
       inputs:
         command: buildAndPush
-        repository: 'qtbuildenvlinux'
+        repository: 'qt-build-env-linux'
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
