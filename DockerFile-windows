@@ -22,7 +22,10 @@ RUN choco install dotnetfx
 # Install MSVC 2019
 RUN \
 	choco install visualstudio2019buildtools && \
-	choco install visualstudio2019community --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
+        choco install visualstudio2019-workload-vctools --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
+ 	choco install visualstudio2019-workload-universal --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
+ 	choco install visualstudio2019-workload-nativedesktop --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
+ 	choco install visualstudio2019-workload-universalbuildtools --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
 
 # Install Git
 RUN	choco install git
