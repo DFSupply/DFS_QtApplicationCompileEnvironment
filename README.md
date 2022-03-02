@@ -1,5 +1,6 @@
 # DFS_QtApplicationCompileEnvironment
-[![Build Status](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_apis/build/status/DFSupply.DFS_QtApplicationCompileEnvironment?branchName=main)](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_build/latest?definitionId=1&branchName=main)
+Linux: [![Build Status](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_apis/build/status/DFSupply.DFS_QtApplicationCompileEnvironment?branchName=main&jobName=Build%20Linux%20Container)](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_build/latest?definitionId=1&branchName=main)
+Windows: [![Build Status](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_apis/build/status/DFSupply.DFS_QtApplicationCompileEnvironment?branchName=main&jobName=Build%20Windows%20Container)](https://dev.azure.com/dfsupplyinc/Azure%20Pipelines%20GitHub/_build/latest?definitionId=1&branchName=main)
 
 Compile Environment(s) for Qt Applications
 
