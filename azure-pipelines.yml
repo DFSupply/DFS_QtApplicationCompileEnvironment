@@ -14,10 +14,10 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build Container Images
+  displayName: Build/Push Container Images
   jobs:
   - job: Build_Windows_Container
-    timeoutInMinutes: 600
+    timeoutInMinutes: 1000
     displayName: Build Windows Container
     pool:
       name: Default
