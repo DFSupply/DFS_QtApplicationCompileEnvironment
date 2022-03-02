@@ -4,15 +4,20 @@ trigger:
 resources:
 - repo: self
 
+name: '$(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)_$(Rev:.r)'
+
 variables:
   tag: '$(Build.BuildId)'
+  version.MajorMinor: '0.1'
+  version.Revision: $[counter(variables['version.MajorMinor'], 0)]
+  versionNumber: '$(version.MajorMinor).$(version.Revision)'
 
 stages:
 - stage: Build
   displayName: Build Container Images
   jobs:
   - job: Build_Windows_Container
-    timeoutInMinutes: 400
+    timeoutInMinutes: 600
     displayName: Build Windows Container
     pool:
       name: Default
@@ -21,14 +26,14 @@ stages:
       - Agent.OSArchitecture -equals X64
     steps:
     - task: Docker@2
-      displayName: Build the windows image
+      displayName: Build/Push the windows image
       inputs:
-        command: build
+        command: buildAndPush
         repository: 'qt-build-env-windows'
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
-          $(tag)
+          $(versionNumber)
   - job: Build_Linux_Container
     timeoutInMinutes: 400
     displayName: Build Linux Container
@@ -46,4 +51,4 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
-          $(tag)
+          $(versionNumber)
