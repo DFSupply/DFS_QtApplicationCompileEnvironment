@@ -25,14 +25,10 @@ RUN \
 # Build Qt Source (native builds)
 RUN \
 	cd /opt/ && \
-	wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz && \
-	tar -xf qt-everywhere-src-5.15.2.tar.xz && \
-	rm qt-everywhere-src-5.15.2.tar.xz && \
-	cd /opt/qt-everywhere-src-5.15.2 && \
-	# git clone https://github.com/qt/qt5 && \
-	# cd qt5 && \
-	# git checkout 5.15.2 && \
-	# git submodule update --init --recursive && \
+	git clone https://github.com/qt/qt5 && \
+	cd qt5 && \
+	git checkout 5.15.2 && \
+	git submodule update --init --recursive && \
 	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	make -j$(nproc) NINJAJOBS=-j30 && \

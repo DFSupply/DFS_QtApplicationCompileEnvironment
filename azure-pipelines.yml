@@ -17,7 +17,7 @@ stages:
   displayName: Build Container Images
   jobs:
   - job: Build_Windows_Container
-    timeoutInMinutes: 600
+    timeoutInMinutes: 900
     displayName: Build Windows Container
     pool:
       name: Default
