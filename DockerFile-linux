@@ -3,23 +3,23 @@
 # Scott Moore
 # 2/24/2022
 
-FROM registry.access.redhat.com/ubi8/ubi
+FROM registry.access.redhat.com/ubi9/ubi
 
 RUN \
 	yum update -y && \
 	yum install yum-utils -y && \
-	yum-config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms && \
+	yum-config-manager --enable codeready-builder-for-rhel-9-x86_64-rpms && \
 	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel ruby meson openssl-devel -y && \
 	alternatives --set python /usr/bin/python2 && \
 	yum group install "Development Tools" -y && \
-	yum module enable llvm-toolset:rhel8 -y && \
+	yum module enable llvm-toolset:rhel9 -y && \
 	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
 	yum install gdb valgrind systemtap ltrace strace -y && \
 	yum install gperf libX11 -y && \
 	yum module reset postgresql -y && \
 	yum module enable postgresql:13 -y && \
 	yum install postgresql-devel postgresql-server-devel libpq -y && \
-	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y && \
+	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y && \
 	yum install p7zip lzip perl-IPC-Cmd -y
 
 # Build Qt Source (native builds)
@@ -48,15 +48,11 @@ RUN \
 	
 # Build Qt in MXE (cross-platform)
 RUN \
-	yum install python39 -y && \
-	yum remove python3 -y && \
-	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python3-mako ruby sed unzip wget which xz -y && \
-	alternatives --set python /usr/bin/python3.9 && \
+	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python3 python3-mako ruby sed unzip wget which xz -y && \
 	cd /opt/ && \
 	git clone https://github.com/mxe/mxe.git && \
 	cd mxe && \
 	make MXE_TARGETS=x86_64-w64-mingw32.static qt5 -j$(nproc) && \
-	alternatives --set python /usr/bin/python2
 
 	
 ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
