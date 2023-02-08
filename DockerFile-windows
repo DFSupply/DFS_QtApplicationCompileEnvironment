@@ -4,7 +4,7 @@
 # Scott Moore
 # 2/26/2022
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
+FROM mcr.microsoft.com/windows/servercore:ltsc2022 as imagebase
 
 # Install chocolatey
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
@@ -19,13 +19,17 @@ RUN choco install curl
 # Install .net 4.8
 RUN choco install dotnetfx
 
-# Install MSVC 2019
+# Install MSVC 2022
 RUN \
-	choco install visualstudio2019buildtools && \
-	choco install visualstudio2019-workload-vctools --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
-	choco install visualstudio2019-workload-universal --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
-	choco install visualstudio2019-workload-nativedesktop --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
-	choco install visualstudio2019-workload-universalbuildtools --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
+	choco install visualstudio2022buildtools --ignore-package-exit-codes=3010 && \
+	choco install visualstudio2022-workload-vctools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
+
+# Reboot required after VS2022-workload-vctools
+FROM imagebase
+RUN \
+	choco install visualstudio2022-workload-universal --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
+	choco install visualstudio2022-workload-nativedesktop --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
+	choco install visualstudio2022-workload-universalbuildtools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
 
 # Install Git
 RUN	choco install git
@@ -85,4 +89,4 @@ RUN Install-Module -Name WintellectPowerShell -Force
 RUN rm C:\vcpkg\installed\x64-windows\tools\qt5\bin\qt.conf
 
 	
-ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]]
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]]
