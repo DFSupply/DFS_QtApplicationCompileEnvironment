@@ -11,7 +11,6 @@ RUN \
 	yum-config-manager --enable codeready-builder-for-rhel-9-x86_64-rpms && \
 	yum install python3 wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel ruby meson openssl-devel -y && \
 	yum group install "Development Tools" -y && \
-	yum module enable llvm-toolset:rhel9 -y && \
 	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
 	yum install gdb valgrind systemtap ltrace strace -y && \
 	yum install gperf libX11 -y && \
