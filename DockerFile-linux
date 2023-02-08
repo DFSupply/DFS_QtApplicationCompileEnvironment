@@ -15,7 +15,6 @@ RUN \
 	yum install gdb valgrind systemtap ltrace strace -y && \
 	yum install gperf libX11 -y && \
 	yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y && \
-	yum module disable postgresql -y && \
 	yum install postgresql13-devel postgresql13-server-devel libpq -y && \
 	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y && \
 	yum install p7zip lzip perl-IPC-Cmd -y
