@@ -48,8 +48,9 @@ RUN \
 	
 # Build Qt in MXE (cross-platform)
 RUN \
+	yum install python39 -y && \
 	yum remove python3 -y && \
-	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python39 python3-mako ruby sed unzip wget which xz -y && \
+	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python3-mako ruby sed unzip wget which xz -y && \
 	alternatives --set python /usr/bin/python3.9 && \
 	cd /opt/ && \
 	git clone https://github.com/mxe/mxe.git && \
