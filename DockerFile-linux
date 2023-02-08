@@ -9,8 +9,7 @@ RUN \
 	yum update -y && \
 	yum install yum-utils -y && \
 	yum-config-manager --enable codeready-builder-for-rhel-9-x86_64-rpms && \
-	yum install wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev python2 dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel ruby meson openssl-devel -y && \
-	alternatives --set python /usr/bin/python2 && \
+	yum install python3 wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel ruby meson openssl-devel -y && \
 	yum group install "Development Tools" -y && \
 	yum module enable llvm-toolset:rhel9 -y && \
 	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
@@ -48,7 +47,7 @@ RUN \
 	
 # Build Qt in MXE (cross-platform)
 RUN \
-	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python3 python3-mako ruby sed unzip wget which xz -y && \
+	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python3-mako ruby sed unzip wget which xz -y && \
 	cd /opt/ && \
 	git clone https://github.com/mxe/mxe.git && \
 	cd mxe && \
