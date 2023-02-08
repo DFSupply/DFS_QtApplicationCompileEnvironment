@@ -55,9 +55,10 @@ RUN \
 
 # vcpkg and required packages
 RUN \
-	git clone https://github.com/microsoft/vcpkg && \
+	git clone -b 2022.02.23 https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
 	bootstrap-vcpkg.bat && \
+	vcpkg install protobuf:x64-windows && \
 	vcpkg install qt5-base[postgresqlplugin]:x64-windows && \
 	vcpkg install qt5-webengine:x64-windows && \
 	vcpkg install qt5:x64-windows && \
