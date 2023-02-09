@@ -14,7 +14,7 @@ RUN \
 	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
 	yum install gdb valgrind systemtap ltrace strace -y && \
 	yum install gperf libX11 -y && \
-	yum install postgresql-devel postgresql-server-devel libpq -y --allowerasing && \
+	yum install postgresql-devel libpq -y && \
 	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y && \
 	yum install p7zip lzip perl-IPC-Cmd -y
 
