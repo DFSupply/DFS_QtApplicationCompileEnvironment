@@ -12,7 +12,7 @@ RUN \
 	yum install python3 wget make cmake *mesa* libxcb* zlib* xz gcc gcc-c++ mingw32-gcc mingw32-gcc-c++ libXinerama* libxkbcommon* xcb* nss-devel glx-utils libevdev libgudev libinput mtdev dbus* libXcomposite-devel libXcursor-devel libXi-devel libXtst-devel libXdamage-devel libXrandr-devel ruby meson openssl-devel -y && \
 	yum install perl libfontenc-devel -y && \
 	yum group install "Development Tools" -y && \
-	yum install llvm-toolset redhat-rpm-config clang llvm-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
+	yum install llvm-toolset redhat-rpm-config clang clang-libs clang-devel llvm-devel libxshmfence libxshmfence-devel libatomic libstdc++ libstdc++-static ninja-build -y && \
 	yum install gdb valgrind systemtap ltrace strace -y && \
 	yum install gperf libX11 -y && \
 	yum install postgresql-devel libpq -y && \
@@ -27,7 +27,7 @@ RUN \
 	tar -xf qt-everywhere-src-6.4.2.tar.xz && \
 	rm qt-everywhere-src-6.4.2.tar.xz && \
 	cd /opt/qt-everywhere-src-6.4.2 && \
-	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite && \
+	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	# sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	cmake --build . --parallel
 	
