@@ -21,10 +21,10 @@ RHEL 9.x  (8.x for builds tagged 0.1.6 and earlier in ACR)
  podman run -rm -it dfsbuildcontainer.azurecr.io/qt-build-env-linux:latest
  ```
 - Option B: Build your own
-```
+ ```
  podman build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
  podman run -rm -it qt-build-env:latest
-```
+ ```
 
 To compile for RHEL 9.x (8.x for builds 0.1.6 and earlier in ACR):
 ----inside of container----
@@ -52,10 +52,10 @@ Windows Server 2022 LTSC
  docker run -rm -it dfsbuildcontainer.azurecr.io/qt-build-env-windows:latest
  ```
 - Option B: Build your own
-```
+ ```
  docker build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
  docker run -rm -it qt-build-env:latest
-```
+ ```
 
 To compile for Windows x64:
 ----inside of container----
