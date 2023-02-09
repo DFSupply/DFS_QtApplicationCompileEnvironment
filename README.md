@@ -8,17 +8,27 @@ Capable of building for:
  - Linux x86_64
  - Windows x86_64
 
-Tested and built to run under RHEL 8.x + Windows Server 2022
+Tested and built to run under RHEL 9.x + Windows Server 2022
 
 ### Linux Build Environment:  
-RHEL 8.x  
-***Licensing restrictions require to be running on RHEL 8.x with an attached subscription***
-```
-subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
-podman build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
-podman run -rm -it qt-build-env:latest
+RHEL 9.x  (8.x for builds tagged 0.1.6 and earlier in ACR)
 
+***Licensing restrictions require to be running on RHEL 8.x or 9.x with an attached subscription***
+
+- Option A: Pull from our Azure Container Registry (tested/stable)
+ ```
+ podman pull dfsbuildcontainer.azurecr.io/qt-build-env-linux:latest
+ podman run -rm -it dfsbuildcontainer.azurecr.io/qt-build-env-linux:latest
+ ```
+- Option B: Build your own
+```
+	podman build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
+	podman run -rm -it qt-build-env:latest
+```
+
+To compile for RHEL 9.x (8.x for builds 0.1.6 and earlier in ACR):
 ----inside of container----
+```
 cd %your_source_directory%
 qmake
 make -j$(nproc)
@@ -35,11 +45,21 @@ make -j$(nproc)
 ### Windows Build Environment:  
 Windows Server 2022 LTSC  
 ***Licensing restrictions require to be running on Windows Server 2022***
-```
-docker build -f DockerFile-windows https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
-docker run -rm -it qt-build-env:latest
 
+- Option A: Pull from our Azure Container Registry (tested/stable)
+ ```
+ docker pull dfsbuildcontainer.azurecr.io/qt-build-env-windows:latest
+ docker run -rm -it dfsbuildcontainer.azurecr.io/qt-build-env-windows:latest
+ ```
+- Option B: Build your own
+```
+	docker build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
+	docker run -rm -it qt-build-env:latest
+```
+
+To compile for Windows x64:
 ----inside of container----
+```
 cd %your_source_directory%
 c:\vcpkg\installed\x64-windows\tools\qt5\bin\qmake.exe
 jom
@@ -56,4 +76,4 @@ xcopy c:\vcpkg\intalled\x64-windows\plugins\*.dll %your_binary_directory%\ /E/H
 
 - Assuming podman (RHEL) or docker EE (Windows Server) are already installed and configured
 - Ensure you've increased the container storage size (if on windows) as the 20GB initial max is not enough. Personally recommand 200GB minimum for this image
-- Can also use ```nmake``` instead of jom to build on windows (if preferred)
+- Can also use ```nmake``` instead of ```jom``` to build on windows (if preferred)
