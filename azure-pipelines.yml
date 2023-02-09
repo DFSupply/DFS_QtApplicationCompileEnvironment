@@ -26,6 +26,7 @@ stages:
       - Agent.OSArchitecture -equals X64
     steps:
     - task: Docker@2
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
       displayName: Build/Push the windows image
       inputs:
         command: buildAndPush
@@ -34,6 +35,12 @@ stages:
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
           $(versionNumber)
+    - task: Docker@2
+      condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
+      displayName: Build the windows image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
   - job: Build_Linux_Container
     timeoutInMinutes: 400
     displayName: Build Linux Container
@@ -44,6 +51,7 @@ stages:
       - Agent.OSArchitecture -equals X64
     steps:
     - task: Docker@2
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
       displayName: Build/Push the linux image
       inputs:
         command: buildAndPush
@@ -52,3 +60,9 @@ stages:
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
           $(versionNumber)
+    - task: Docker@2
+      condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
+      displayName: Build the linux image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
