@@ -22,8 +22,8 @@ RHEL 9.x  (8.x for builds tagged 0.1.6 and earlier in ACR)
  ```
 - Option B: Build your own
 ```
-	podman build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
-	podman run -rm -it qt-build-env:latest
+ podman build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
+ podman run -rm -it qt-build-env:latest
 ```
 
 To compile for RHEL 9.x (8.x for builds 0.1.6 and earlier in ACR):
@@ -53,8 +53,8 @@ Windows Server 2022 LTSC
  ```
 - Option B: Build your own
 ```
-	docker build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
-	docker run -rm -it qt-build-env:latest
+ docker build -f DockerFile-linux https://github.com/DFSupply/DFS_QtApplicationCompileEnvironment.git -t qt-build-env:latest
+ docker run -rm -it qt-build-env:latest
 ```
 
 To compile for Windows x64:
