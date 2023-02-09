@@ -30,6 +30,8 @@ RUN \
 	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -sql-psql -sql-sqlite && \
 	# sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	cmake --build . --parallel
+	
+RUN \
 	cmake --install .
 		
 ENV PATH="${PATH}:/usr/local/Qt-6.4.2/bin"
