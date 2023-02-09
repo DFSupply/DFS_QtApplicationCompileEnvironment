@@ -41,16 +41,6 @@ RUN \
 	cd build && \
 	ninja && \
 	ninja install
-	
-# Build Qt in MXE (cross-platform)
-RUN \
-	yum install autoconf automake bash bison bzip2 flex gcc-c++ gdk-pixbuf2-devel gettext git gperf intltool libtool lzip make mesa-libGL-devel openssl openssl-devel p7zip patch perl python3-mako ruby sed unzip wget which xz -y && \
-	alternatives --install /usr/bin/python python /usr/bin/python3 50 && \
-	cd /opt/ && \
-	git clone https://github.com/mxe/mxe.git && \
-	cd mxe && \
-	make MXE_TARGETS=x86_64-w64-mingw32.static qt5 -j$(nproc) && \
-
-	
+		
 ENV PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
 ENTRYPOINT ["/bin/bash"]

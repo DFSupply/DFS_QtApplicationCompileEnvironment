@@ -34,14 +34,6 @@ qmake
 make -j$(nproc)
 ```
 
-To cross-compile in the linux environment (if you **do not** require QtWebEngine):
-```
-export PATH=/opt/mxe/usr/bin:$PATH
-cd %your_source_directory%
-/opt/mxe/usr/bin/x86_64-w64-mingw32.static-qmake-qt5
-make -j$(nproc)
-```
-
 ### Windows Build Environment:  
 Windows Server 2022 LTSC  
 ***Licensing restrictions require to be running on Windows Server 2022***
