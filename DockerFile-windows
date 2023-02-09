@@ -51,7 +51,8 @@ RUN choco install sed
 
 # Setup build directories
 RUN \
-	mkdir build-env
+	mkdir build-env && \
+	mkdir b
 
 # vcpkg and required packages
 RUN \
@@ -60,7 +61,7 @@ RUN \
 	bootstrap-vcpkg.bat && \
 	vcpkg install protobuf:x64-windows && \
 	vcpkg install qtbase[sql-psql]:x64-windows && \
-	vcpkg install qtwebengine:x64-windows && \
+	vcpkg install qtwebengine:x64-windows --x-buildtrees-root=C:\b\ && \
 	vcpkg install qt:x64-windows && \
 	vcpkg install qt5compat:x64-windows && \
 	vcpkg install qtshadertools:x64-windows && \

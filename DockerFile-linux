@@ -17,7 +17,8 @@ RUN \
 	yum install gperf libX11 -y && \
 	yum install postgresql-devel libpq -y && \
 	yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y && \
-	yum install p7zip lzip perl-IPC-Cmd -y
+	yum install p7zip lzip perl-IPC-Cmd -y && \
+	yum install python3-html5lib bison flex nodejs -y
 
 # Build Qt Source (native builds)
 RUN \
