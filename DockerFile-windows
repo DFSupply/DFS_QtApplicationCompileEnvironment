@@ -55,29 +55,38 @@ RUN \
 
 # vcpkg and required packages
 RUN \
-	git clone -b 2022.02.23 https://github.com/microsoft/vcpkg && \
+	git clone https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
 	bootstrap-vcpkg.bat && \
 	vcpkg install protobuf:x64-windows && \
-	vcpkg install qt5-base[postgresqlplugin]:x64-windows && \
-	vcpkg install qt5-webengine:x64-windows && \
-	vcpkg install qt5:x64-windows && \
-	vcpkg install qt5-3d:x64-windows && \
-	vcpkg install qt5-activeqt:x64-windows && \
-	vcpkg install qt5-charts:x64-windows && \
-	vcpkg install qt5-declarative:x64-windows && \
-	vcpkg install qt5-graphicaleffects:x64-windows && \
-	vcpkg install qt5-location:x64-windows && \
-	vcpkg install qt5-script:x64-windows && \
-	vcpkg install qt5-svg:x64-windows && \
-	vcpkg install qt5-tools:x64-windows && \
-	vcpkg install qt5-translations:x64-windows && \
-	vcpkg install qt5-webchannel:x64-windows && \
-	vcpkg install qt5-webglplugin:x64-windows && \
-	vcpkg install qt5-websockets:x64-windows && \
-	vcpkg install qt5-webview:x64-windows && \
-	vcpkg install qt5-winextras:x64-windows && \
-	vcpkg install qt5-xmlpatterns:x64-windows && \
+	vcpkg install qtbase[sql-psql]:x64-windows && \
+	vcpkg install qtwebengine :x64-windows && \
+	vcpkg install qt:x64-windows && \
+	vcpkg install qt5compat:x64-windows && \
+	vcpkg install qtshadertools:x64-windows && \
+	vcpkg install qtactiveqt:x64-windows && \
+	vcpkg install qtapplicationmanager:x64-windows && \
+	vcpkg install qtcharts:x64-windows && \.\vcp
+	vcpkg install qtcoap:x64-windows && \
+	vcpkg install qtconnectivity:x64-windows && \
+	vcpkg install qtdatavis3d:x64-windows && \
+	vcpkg install qtdeclarative:x64-windows && \
+	vcpkg install qtdeviceutilities:x64-windows && \
+	vcpkg install qtimageformats:x64-windows && \
+	vcpkg install qtinterfaceframework:x64-windows && \
+	vcpkg install qtlocation:x64-windows && \
+	vcpkg install qtmultimedia:x64-windows && \
+	vcpkg install qtnetworkauth:x64-windows && \
+	vcpkg install qtopcua:x64-windows && \
+	vcpkg install qtpositioning:x64-windows && \
+	vcpkg install qtquick3d:x64-windows && \
+	vcpkg install qtquickcontrols2:x64-windows && \
+	vcpkg install qtsvg:x64-windows && \
+	vcpkg install qttools:x64-windows && \
+	vcpkg install qttranslations:x64-windows && \
+	vcpkg install qtwebchannel:x64-windows && \
+	vcpkg install qtwebsockets:x64-windows && \
+	vcpkg install qtwebview:x64-windows && \
 	vcpkg install openssl:x64-windows && \
 	vcpkg install zlib:x64-windows && \
 	vcpkg install libpq:x64-windows && \
