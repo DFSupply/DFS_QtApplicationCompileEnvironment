@@ -21,10 +21,10 @@ RUN \
 # Build Qt Source (native builds)
 RUN \
 	cd /opt/ && \
-	wget -q http://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz && \
-	tar -xf qt-everywhere-src-5.15.2.tar.xz && \
-	rm qt-everywhere-src-5.15.2.tar.xz && \
-	cd /opt/qt-everywhere-src-5.15.2 && \
+	wget -q https://download.qt.io/official_releases/qt/5.15/5.15.8/single/qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	tar -xf qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	rm qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	cd /opt/qt-everywhere-src-5.15.8 && \
 	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	make -j$(nproc) NINJAJOBS=-j30 && \
@@ -51,5 +51,5 @@ RUN \
 	make MXE_TARGETS=x86_64-w64-mingw32.static qt5 -j$(nproc) && \
 
 	
-ENV PATH="${PATH}:/usr/local/Qt-5.15.2/bin"
+ENV PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
 ENTRYPOINT ["/bin/bash"]
