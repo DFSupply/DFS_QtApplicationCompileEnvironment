@@ -6,7 +6,7 @@
 FROM registry.access.redhat.com/ubi9/ubi
 
 RUN \
-	REPOS=$(awk '/^\[/ {gsub(/[\[\]]/, "", $0); printf("--repo %s ", $0)}'  /etc/yum.repos.d/redhat.repo) && \
+	REPOS=$(awk '/^\[/ {gsub(/[\[\]]/, "", $0); printf("--repo %s ", $0)}'  /etc/yum.repos.d/ubi.repo) && \
 	subscription-manager repo-override --add sslverifystatus:0 $REPOS
 
 RUN \
