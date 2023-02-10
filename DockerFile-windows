@@ -46,8 +46,20 @@ RUN choco install ruby
 # Install Python
 RUN choco install python2
 
+# Install Python3
+RUN choco install python3
+
 # Install sed
 RUN choco install sed
+
+# Install Ninja
+RUN choco install ninja
+
+# Install CMake
+RUN choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+# Install LLVM
+RUN choco install llvm
 
 # Setup build directories
 RUN \
@@ -59,35 +71,8 @@ RUN \
 	git clone https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
 	bootstrap-vcpkg.bat && \
-	vcpkg install protobuf:x64-windows && \
 	vcpkg install qtbase[sql-psql]:x64-windows && \
-	vcpkg install qtwebengine[core,default-features,geolocation,spellchecker,webchannel]:x64-windows --x-buildtrees-root=C:\b\ && \
-	vcpkg install qt:x64-windows && \
-	vcpkg install qt5compat:x64-windows && \
-	vcpkg install qtshadertools:x64-windows && \
-	vcpkg install qtactiveqt:x64-windows && \
-	vcpkg install qtapplicationmanager:x64-windows && \
-	vcpkg install qtcharts:x64-windows && \
-	vcpkg install qtcoap:x64-windows && \
-	vcpkg install qtconnectivity:x64-windows && \
-	vcpkg install qtdatavis3d:x64-windows && \
-	vcpkg install qtdeclarative:x64-windows && \
-	vcpkg install qtdeviceutilities:x64-windows && \
-	vcpkg install qtimageformats:x64-windows && \
-	vcpkg install qtinterfaceframework:x64-windows && \
-	vcpkg install qtlocation:x64-windows && \
-	vcpkg install qtmultimedia:x64-windows && \
-	vcpkg install qtnetworkauth:x64-windows && \
-	vcpkg install qtopcua:x64-windows && \
-	vcpkg install qtpositioning:x64-windows && \
-	vcpkg install qtquick3d:x64-windows && \
-	vcpkg install qtquickcontrols2:x64-windows && \
-	vcpkg install qtsvg:x64-windows && \
-	vcpkg install qttools:x64-windows && \
-	vcpkg install qttranslations:x64-windows && \
-	vcpkg install qtwebchannel:x64-windows && \
-	vcpkg install qtwebsockets:x64-windows && \
-	vcpkg install qtwebview:x64-windows && \
+	vcpkg install qt:x64-windows --x-buildtrees-root=C:\b\ --clean-after-build && \
 	vcpkg install openssl:x64-windows && \
 	vcpkg install zlib:x64-windows && \
 	vcpkg install libpq:x64-windows && \
@@ -97,6 +82,6 @@ RUN \
 SHELL ["powershell"]
 RUN Install-PackageProvider NuGet -Force
 RUN Install-Module -Name WintellectPowerShell -Force
-RUN rm C:\vcpkg\installed\x64-windows\tools\qt5\bin\qt.conf
+RUN rm C:\vcpkg\installed\x64-windows\tools\qt6\bin\qt.conf
 
 ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]]
