@@ -6,6 +6,7 @@
 FROM registry.access.redhat.com/ubi9/ubi
 
 RUN \
+	ulimit -n && \
 	yum update -y && \
 	yum install yum-utils -y && \
 	yum-config-manager --enable codeready-builder-for-rhel-9-x86_64-rpms && \
