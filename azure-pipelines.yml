@@ -42,6 +42,7 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
   - job: Build_Linux_Container
+    dependsOn: Build_Windows_Container
     timeoutInMinutes: 400
     displayName: Build Linux Container
     pool:
@@ -68,3 +69,6 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         arguments: --ulimit nofile=90000:90000
+    - task: CmdLine@2
+      inputs:
+      script: 'docker system prune -a --force' 

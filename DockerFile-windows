@@ -61,7 +61,7 @@ RUN \
 	bootstrap-vcpkg.bat && \
 	vcpkg install protobuf:x64-windows && \
 	vcpkg install qtbase[sql-psql]:x64-windows && \
-	vcpkg install qtwebengine:x64-windows --x-buildtrees-root=C:\b\ && \
+	vcpkg install qtwebengine[core,default-features,geolocation,spellchecker,webchannel]:x64-windows --x-buildtrees-root=C:\b\ && \
 	vcpkg install qt:x64-windows && \
 	vcpkg install qt5compat:x64-windows && \
 	vcpkg install qtshadertools:x64-windows && \
