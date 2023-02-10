@@ -19,6 +19,8 @@ stages:
   - job: Build_Windows_Container
     timeoutInMinutes: 1000
     displayName: Build Windows Container
+    workspace:
+      clean: all
     pool:
       name: Default
       demands:
@@ -44,6 +46,8 @@ stages:
   - job: Build_Linux_Container
     timeoutInMinutes: 400
     displayName: Build Linux Container
+    workspace:
+      clean: all
     pool:
       name: Default
       demands:
