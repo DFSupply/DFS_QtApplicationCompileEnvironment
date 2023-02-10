@@ -69,6 +69,3 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
         arguments: --ulimit nofile=90000:90000
-    - task: CmdLine@2
-      inputs:
-      script: 'docker system prune -a --force' 
