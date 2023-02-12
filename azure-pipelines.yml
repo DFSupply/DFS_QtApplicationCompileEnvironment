@@ -42,7 +42,6 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
   - job: Build_Linux_Container
-    dependsOn: Build_Windows_Container
     timeoutInMinutes: 400
     displayName: Build Linux Container
     pool:
