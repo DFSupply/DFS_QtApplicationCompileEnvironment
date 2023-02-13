@@ -127,7 +127,7 @@ RUN \
 	wget -q https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.zip && \
 	tar -xf qt-everywhere-src-6.4.2.zip && \
 	cd qt-everywhere-src-6.4.2 && \
-	./configure.bat -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
+	.\configure.bat -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	cmake --build . --parallel && \
 	cmake --install .
 
