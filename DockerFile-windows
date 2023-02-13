@@ -61,21 +61,75 @@ RUN choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 # Install LLVM
 RUN choco install llvm
 
+# install WGET
+RUN choco install wget
+
 # Setup build directories
 RUN \
 	mkdir build-env && \
-	mkdir b
+	mkdir b && \
+	mkdir qt6
 
 # vcpkg and required packages
 RUN \
 	git clone https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
 	bootstrap-vcpkg.bat && \
-	vcpkg install qt:x64-windows --x-buildtrees-root=C:\b\ && \
+#	vcpkg install angle && \
+#	vcpkg install assimp && \
+#	vcpkg install brotli && \
+#	vcpkg install bzip2 && \
+#	vcpkg install dirent && \
+#	vcpkg install double-conversion && \
+#	vcpkg install draco && \
+#	vcpkg install egl && \
+#	vcpkg install egl-registry && \
+#	vcpkg install ffmpeg && \
+#	vcpkg install freeglut && \
+#	vcpkg install freetype && \
+#	vcpkg install gettext && \
+#	vcpkg install glib && \
+#	vcpkg install gperf && \
+#	vcpkg install gstreamer && \
+#	vcpkg install harfbuzz && \
+#	vcpkg install hunspell && \
+#	vcpkg install icu && \
+#	vcpkg install jasper && \
+#	vcpkg install kubazip && \
+#	vcpkg install libarchive && \
+#	vcpkg install libffi && \
+#	vcpkg install libiconv && \
+#	vcpkg install libjpeg-turbo && \
+#	vcpkg install liblzma && \
+#	vcpkg install libpng && \
+#	vcpkg install libpq && \
+#	vcpkg install libwebp && \
+#	vcpkg install libxml2 && \
+#	vcpkg install libyaml && \
+#	vcpkg install lz4 && \
+#	vcpkg install minizip && \
+#	vcpkg install open62541 && \
+#	vcpkg install opengl && \
+#	vcpkg install opengl-registry && \
+#	vcpkg install openssl && \
+#	vcpkg install pcre2 && \
+#	vcpkg install pkgconf && \
+#	vcpkg install poly2tri && \
+#	vcpkg install pugixml && \
 	vcpkg install openssl:x64-windows && \
 	vcpkg install zlib:x64-windows && \
 	vcpkg install libpq:x64-windows && \
 	vcpkg integrate install
+	
+# Build Qt Source (native builds)
+RUN \
+	cd qt6 && \
+	wget -q https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz && \
+	tar -xf qt-everywhere-src-6.4.2.tar.xz && \
+	cd qt-everywhere-src-6.4.2 && \
+	./configure.bat -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
+	cmake --build . --parallel && \
+	cmake --install .
 
 # Bootstrapping msvc tools
 SHELL ["powershell"]
