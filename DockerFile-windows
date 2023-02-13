@@ -32,7 +32,7 @@ RUN \
 	choco install visualstudio2022-workload-universalbuildtools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
 
 # Install Git
-RUN	choco install git
+RUN choco install git
 		
 # Install JOM for multi-core builds
 RUN choco install jom
