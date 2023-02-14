@@ -32,7 +32,7 @@ RUN \
 	choco install visualstudio2022-workload-universalbuildtools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
 
 # Install Git
-RUN	choco install git
+RUN choco install git
 		
 # Install JOM for multi-core builds
 RUN choco install jom
@@ -46,38 +46,32 @@ RUN choco install ruby
 # Install Python
 RUN choco install python2
 
+# Install Python3
+RUN choco install python3
+
 # Install sed
 RUN choco install sed
 
+# Install Ninja
+RUN choco install ninja
+
+# Install CMake
+RUN choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+# Install LLVM
+RUN choco install llvm
+
 # Setup build directories
 RUN \
-	mkdir build-env
+	mkdir build-env && \
+	mkdir b
 
 # vcpkg and required packages
 RUN \
-	git clone -b 2022.02.23 https://github.com/microsoft/vcpkg && \
+	git clone https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
 	bootstrap-vcpkg.bat && \
-	vcpkg install protobuf:x64-windows && \
-	vcpkg install qt5-base[postgresqlplugin]:x64-windows && \
-	vcpkg install qt5-webengine:x64-windows && \
-	vcpkg install qt5:x64-windows && \
-	vcpkg install qt5-3d:x64-windows && \
-	vcpkg install qt5-activeqt:x64-windows && \
-	vcpkg install qt5-charts:x64-windows && \
-	vcpkg install qt5-declarative:x64-windows && \
-	vcpkg install qt5-graphicaleffects:x64-windows && \
-	vcpkg install qt5-location:x64-windows && \
-	vcpkg install qt5-script:x64-windows && \
-	vcpkg install qt5-svg:x64-windows && \
-	vcpkg install qt5-tools:x64-windows && \
-	vcpkg install qt5-translations:x64-windows && \
-	vcpkg install qt5-webchannel:x64-windows && \
-	vcpkg install qt5-webglplugin:x64-windows && \
-	vcpkg install qt5-websockets:x64-windows && \
-	vcpkg install qt5-webview:x64-windows && \
-	vcpkg install qt5-winextras:x64-windows && \
-	vcpkg install qt5-xmlpatterns:x64-windows && \
+	vcpkg install qt:x64-windows --x-buildtrees-root=C:\b\ && \
 	vcpkg install openssl:x64-windows && \
 	vcpkg install zlib:x64-windows && \
 	vcpkg install libpq:x64-windows && \
@@ -87,7 +81,5 @@ RUN \
 SHELL ["powershell"]
 RUN Install-PackageProvider NuGet -Force
 RUN Install-Module -Name WintellectPowerShell -Force
-RUN rm C:\vcpkg\installed\x64-windows\tools\qt5\bin\qt.conf
 
-	
 ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]]

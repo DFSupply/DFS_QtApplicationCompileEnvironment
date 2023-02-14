@@ -61,6 +61,7 @@ stages:
         command: buildAndPush
         repository: 'qt-build-env-linux'
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
+        arguments: --ulimit nofile=90000:90000
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
           $(versionNumber)
@@ -70,3 +71,4 @@ stages:
       inputs:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-linux'
+        arguments: --ulimit nofile=90000:90000
