@@ -72,7 +72,7 @@ RUN \
 	sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro && \
 	mkdir build && \
 	cd build && \
-	qmake .. -- -system-ffmpeg -proprietary-codecs -webengine-icu && \
+	qmake .. -- -proprietary-codecs -webengine-icu && \
 	make -j$(nproc) NINJAJOBS=-j30 && \
 	make install
 
