@@ -46,7 +46,7 @@ RUN \
 	make install
 
 # Set our QT Path now, so we can build below
-EXPORT PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
+RUN EXPORT PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
 
 # Qt5 will not build Qtwebengine (with python3)
 # build the newer 5.15.12 Qtwebengine and jam it back in 5.15.8
