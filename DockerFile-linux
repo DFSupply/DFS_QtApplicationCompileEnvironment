@@ -45,9 +45,6 @@ RUN \
 	make -j$(nproc) NINJAJOBS=-j30 && \
 	make install
 
-# Set our QT Path now, so we can build below
-RUN EXPORT PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
-
 # Qt5 will not build Qtwebengine (with python3)
 # build the newer 5.15.12 Qtwebengine and jam it back in 5.15.8
 COPY qtwebengine-5.15.12.tar.xz_aa /opt/
@@ -57,6 +54,8 @@ COPY qtwebengine-5.15.12.tar.xz_ad /opt/
 COPY qtwebengine-5.15.12-build_fixes-1.patch /opt/
 COPY qtwebengine-5.15.12-ffmpeg5_fixes-1.patch /opt/
 RUN \
+	# Set our QT Path now, so we can build below
+	export PATH="${PATH}:/usr/local/Qt-5.15.8/bin" && \
 	cd /opt/ && \
 	cat qtwebengine-5.15.12.tar.xz_* >qtwebengine-5.15.12.tar.xz && \
 	tar -xf qtwebengine-5.15.12.tar.xz && \
