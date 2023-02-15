@@ -53,11 +53,12 @@ COPY qtwebengine-5.15.12.tar.xz_ac /opt/
 COPY qtwebengine-5.15.12.tar.xz_ad /opt/
 COPY qtwebengine-5.15.12-build_fixes-1.patch /opt/
 COPY qtwebengine-5.15.12-ffmpeg5_fixes-1.patch /opt/
+RUN yum install patch -y
 RUN \
 	cd /opt/ && \
 	cat qtwebengine-5.15.12.tar.xz_* >qtwebengine-5.15.12.tar.xz && \
 	tar -xf qtwebengine-5.15.12.tar.xz && \
-	rm qtwebengine-5.15.12.tar.xz* && \
+	rm -Rf qtwebengine-5.15.12.tar.xz* && \
 	cd /opt/qtwebengine-5.15.12 && \
 	patch -Np1 -i ../qtwebengine-5.15.12-build_fixes-1.patch && \
 	patch -Np1 -i ../qtwebengine-5.15.12-ffmpeg5_fixes-1.patch && \
