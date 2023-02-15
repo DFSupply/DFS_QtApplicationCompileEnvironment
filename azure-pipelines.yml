@@ -36,6 +36,7 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/DockerFile-windows'
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
+          latest
           $(versionNumber)
     - task: Docker@2
       condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')
@@ -64,6 +65,7 @@ stages:
         arguments: --ulimit nofile=90000:90000
         containerRegistry: 'dfsbuildcontainer.azurecr.io'
         tags: |
+          latest
           $(versionNumber)
     - task: Docker@2
       condition: ne(variables['Build.SourceBranch'], 'refs/heads/main')

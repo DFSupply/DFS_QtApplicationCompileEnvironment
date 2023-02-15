@@ -1,5 +1,4 @@
-# Compile Environment for Qt Applications (windows)
-# Use for apps that require QtWebEngine, you use can also use the linux container with MXE (if not required)
+# Compile Environment for Qt 5/6 Applications (windows)
 # DF Supply, Inc.
 # Scott Moore
 # 2/26/2022
@@ -66,7 +65,7 @@ RUN \
 	mkdir build-env && \
 	mkdir b
 
-# vcpkg and required packages
+# vcpkg and required packages (Qt6)
 RUN \
 	git clone https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
@@ -77,6 +76,14 @@ RUN \
 	vcpkg install libpq:x64-windows && \
 	vcpkg integrate install
 
+# Qt5
+RUN \
+	cd vcpkg && \
+	vcpkg install qt5-base[postgresqlplugin]:x64-windows --x-buildtrees-root=c:\b\ && \
+	vcpkg install qt5-webengine:x64-windows --x-buildtrees-root=c:\b\ && \
+	vcpkg install qt5:x64-windows --x-buildtrees-root=c:\b\ && \
+	vcpkg integrate install
+	
 # Bootstrapping msvc tools
 SHELL ["powershell"]
 RUN Install-PackageProvider NuGet -Force

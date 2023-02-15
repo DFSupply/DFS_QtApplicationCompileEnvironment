@@ -1,4 +1,4 @@
-# Compile Environment for Qt Applications (linux)
+# Compile Environment for Qt 5/6 Applications (linux)
 # DF Supply, Inc.
 # Scott Moore
 # 2/24/2022
@@ -21,7 +21,7 @@ RUN \
 	yum install p7zip lzip perl-IPC-Cmd -y && \
 	yum install python3-html5lib bison flex nodejs cups-libs cups-devel libxkbfile libxkbfile-devel expat expat-devel -y
 
-# Build Qt Source (native builds)
+# Build Qt6 Source (native builds)
 RUN \
 	cd /opt/ && \
 	wget -q https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz && \
@@ -32,6 +32,20 @@ RUN \
 	# sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	cmake --build . --parallel && \
 	cmake --install .
-		
-ENV PATH="${PATH}:/usr/local/Qt-6.4.2/bin"
+
+# Build Qt5 Source (native builds)
+RUN \
+	cd /opt/ && \
+	wget -q https://download.qt.io/official_releases/qt/5.15/5.15.8/single/qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	tar -xf qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	rm qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	cd /opt/qt-everywhere-src-5.15.8 && \
+	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
+	# sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
+	make -j$(nproc) NINJAJOBS=-j30 && \
+	make install
+
+# you can set your path to Qt5 or Qt6
+#ENV PATH="${PATH}:/usr/local/Qt-6.4.2/bin"
+ENV PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
 ENTRYPOINT ["/bin/bash"]
