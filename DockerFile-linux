@@ -70,6 +70,7 @@ RUN \
 	sed -e 's/\^(?i)/(?i)^/' -i src/3rdparty/chromium/tools/metrics/ukm/ukm_model.py && \
 	sed -e "s/'rU'/'r'/" -i src/3rdparty/chromium/tools/grit/grit/util.py && \
 	sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro && \
+	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' src/buildtools/config/common.pri && \
 	mkdir build && \
 	cd build && \
 	qmake .. -- -proprietary-codecs -webengine-icu && \
