@@ -110,7 +110,7 @@ RUN \
 	tar xjvf ffmpeg-snapshot.tar.bz2 && \
 	cd ffmpeg && \
 	export PKG_CONFIG_PATH="/opt/ffmpeg/build/lib/pkgconfig" && \
-	./configure --prefix="/opt/ffmpeg" --pkg-config-flags="--static" --extra-cflags="-I/opt/ffmpeg/include" --extra-ldflags="-L/opt/ffmpeg/lib" --extra-libs=-lpthread --extra-libs=-lm --bindir="/usr/local/ffmpeg/bin" --enable-gpl --enable-libfdk_aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvpx --enable-libx264 --enable-libx265 --enable-nonfree && \
+	./configure --prefix="/opt/ffmpeg/build" --pkg-config-flags="--static" --extra-cflags="-I/opt/ffmpeg/build/include" --extra-ldflags="-L/opt/ffmpeg/build/lib" --extra-libs=-lpthread --extra-libs=-lm --bindir="/usr/local/ffmpeg/bin" --enable-gpl --enable-libfdk_aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvpx --enable-libx264 --enable-libx265 --enable-nonfree && \
 	make && \
 	make install
 
