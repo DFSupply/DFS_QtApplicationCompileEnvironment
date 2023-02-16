@@ -21,11 +21,7 @@ RUN choco install dotnetfx
 # Install MSVC 2022
 RUN \
 	choco install visualstudio2022buildtools --ignore-package-exit-codes=3010 && \
-	choco install visualstudio2022-workload-vctools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
-
-# Reboot required after VS2022-workload-vctools
-FROM imagebase
-RUN \
+	choco install visualstudio2022-workload-vctools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
 	choco install visualstudio2022-workload-universal --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
 	choco install visualstudio2022-workload-nativedesktop --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
 	choco install visualstudio2022-workload-universalbuildtools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
@@ -74,7 +70,13 @@ RUN \
 	vcpkg install openssl:x64-windows && \
 	vcpkg install zlib:x64-windows && \
 	vcpkg install libpq:x64-windows && \
-	vcpkg integrate install
+	vcpkg integrate install && \
+	# Cleanup to reduce image size
+	RMDIR packages /S /Q && \
+	RMDIR buildtrees /S /Q && \
+	RMDIR downloads /S /Q && \
+	RMDIR c:\b /S /Q
+
 
 # Qt5
 RUN \
@@ -82,7 +84,12 @@ RUN \
 	vcpkg install qt5-base[postgresqlplugin]:x64-windows --x-buildtrees-root=c:\b\ && \
 	vcpkg install qt5-webengine:x64-windows --x-buildtrees-root=c:\b\ && \
 	vcpkg install qt5:x64-windows --x-buildtrees-root=c:\b\ && \
-	vcpkg integrate install
+	vcpkg integrate install && \
+	# Cleanup to reduce image size
+	RMDIR packages /S /Q && \
+	RMDIR buildtrees /S /Q && \
+	RMDIR downloads /S /Q && \
+	RMDIR c:\b /S /Q
 	
 # Bootstrapping msvc tools
 SHELL ["powershell"]

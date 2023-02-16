@@ -45,74 +45,11 @@ RUN \
 	make -j$(nproc) NINJAJOBS=-j30 && \
 	make install
 	
-# Build FFmpeg (required for QTWebengine)
+# Install FFmpeg/Opus/Webp libs (required for QTWebengine)
 RUN \
-	yum remove nasm -y && \
-	cd /opt/ && \
-	mkdir ffmpeg && \
-	cd ffmpeg && \
-	curl -O -L https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.bz2 && \
-	tar xjvf nasm-2.15.05.tar.bz2 && \
-	cd nasm-2.15.05 && \
-	./autogen.sh && \
-	./configure --prefix="/opt/ffmpeg/build" --bindir="/usr/local/ffmpeg/bin" && \
-	make && \
-	make install && \
-	export PATH="${PATH}:/usr/local/ffmpeg/bin" && \
-	cd /opt/ffmpeg && \
-	curl -O -L https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz && \
-	tar xzvf yasm-1.3.0.tar.gz && \
-	cd yasm-1.3.0 && \
-	./configure --prefix="/opt/ffmpeg/build" --bindir="/usr/local/ffmpeg/bin" && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	git clone --branch stable --depth 1 https://code.videolan.org/videolan/x264.git && \
-	cd x264 && \
-	PKG_CONFIG_PATH="/opt/ffmpeg/build/lib/pkgconfig" ./configure --prefix="/opt/ffmpeg/build" --bindir="/usr/local/ffmpeg/bin" --enable-static && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	git clone --branch stable --depth 2 https://bitbucket.org/multicoreware/x265_git && \
-	cd x265_git/build/linux && \
-	cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/opt/ffmpeg/build" -DENABLE_SHARED:bool=off ../../source && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	git clone --depth 1 https://github.com/mstorsjo/fdk-aac && \
-	cd fdk-aac && \
-	autoreconf -fiv && \
-	./configure --prefix="/opt/ffmpeg/build" --disable-shared && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	curl -O -L https://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz && \
-	tar xzvf lame-3.100.tar.gz && \
-	cd lame-3.100 && \
-	./configure --prefix="/opt/ffmpeg/build" --bindir="/usr/local/ffmpeg/bin" --disable-shared --enable-nasm && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	curl -O -L https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz && \
-	tar xzvf opus-1.3.1.tar.gz && \
-	cd opus-1.3.1 && \
-	./configure --prefix="/opt/ffmpeg/build" --disable-shared && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git && \
-	cd libvpx && \
-	./configure --prefix="/opt/ffmpeg/build" --disable-examples --disable-unit-tests --enable-vp9-highbitdepth --as=yasm && \
-	make && \
-	make install && \
-	cd /opt/ffmpeg && \
-	curl -O -L https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2 && \
-	tar xjvf ffmpeg-snapshot.tar.bz2 && \
-	cd ffmpeg && \
-	export PKG_CONFIG_PATH="/opt/ffmpeg/build/lib/pkgconfig" && \
-	./configure --prefix="/opt/ffmpeg/build" --pkg-config-flags="--static" --extra-cflags="-I/opt/ffmpeg/build/include" --extra-ldflags="-L/opt/ffmpeg/build/lib" --extra-libs=-lpthread --extra-libs=-lm --bindir="/usr/local/ffmpeg/bin" --enable-gpl --enable-libfdk_aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvpx --enable-libx264 --enable-libx265 --enable-nonfree && \
-	make && \
-	make install
+	yum install --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm -y && \
+	yum install opus-devel libwebp-devel -y && \
+	yum install ffmpeg-devel -y
 
 # Qt5 will not build Qtwebengine (with python3)
 # build the newer 5.15.12 Qtwebengine and jam it back in 5.15.8
@@ -125,7 +62,6 @@ COPY qtwebengine-5.15.12-ffmpeg5_fixes-1.patch /opt/
 RUN \
 	# Set our QT Path now, so we can build below
 	export PATH="${PATH}:/usr/local/Qt-5.15.8/bin" && \
-	export PATH="${PATH}:/usr/local/ffmpeg/bin" && \
 	cd /opt/ && \
 	cat qtwebengine-5.15.12.tar.xz_* >qtwebengine-5.15.12.tar.xz && \
 	tar -xf qtwebengine-5.15.12.tar.xz && \
@@ -135,7 +71,7 @@ RUN \
 	patch -Np1 -i ../qtwebengine-5.15.12-ffmpeg5_fixes-1.patch && \
 	mkdir -pv .git src/3rdparty/chromium/.git && \
 	sed -e '/^MODULE_VERSION/s/5.*/5.15.8/' -i .qmake.conf && \
-	find -type f -name "*.pr[io]" | xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |' && \
+	find -type f -name "*.pr[io]" | xargs sed -i -e 's|INCLUDEPATH += |&/usr/local/Qt-5.15.8/include |' && \
 	sed -e '/link_pulseaudio/s/false/true/' -i src/3rdparty/chromium/media/media_options.gni && \
 	sed -e 's/\^(?i)/(?i)^/' -i src/3rdparty/chromium/tools/metrics/ukm/ukm_model.py && \
 	sed -e "s/'rU'/'r'/" -i src/3rdparty/chromium/tools/grit/grit/util.py && \
@@ -143,9 +79,15 @@ RUN \
 	sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' src/buildtools/config/common.pri && \
 	mkdir build && \
 	cd build && \
-	qmake .. -- -system-ffmpeg -proprietary-codecs -webengine-icu && \
-	make -j$(nproc) NINJAJOBS=-j30 && \
+	qmake .. -- && \
+	make && \
 	make install
+	
+# Cleanup
+RUN \
+	rm -Rf /opt/qt-everywhere-src-6.4.2 && \
+	rm -Rf /opt/qt-everywhere-src-5.15.8 && \
+	rm -Rf /opt/qtwebengine-5.15.12
 
 # you can set your path to Qt5 or Qt6
 #ENV PATH="${PATH}:/usr/local/Qt-6.4.2/bin"

@@ -67,5 +67,5 @@ xcopy c:\vcpkg\intalled\x64-windows\plugins\*.dll %your_binary_directory%\ /E/H
 #### Important Notes
 
 - Assuming podman (RHEL) or docker EE (Windows Server) are already installed and configured
-- Ensure you've increased the container storage size (if on windows) as the 20GB initial max is not enough. Personally recommand 200GB minimum for this image
+- Ensure you've increased the container storage size (if on windows) as the 20GB initial max is not enough. Personally recommend 500GB for this image
 - Can also use ```nmake``` instead of ```jom``` to build on windows (if preferred)
