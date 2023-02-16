@@ -68,7 +68,7 @@ RUN \
 	rm -Rf qtwebengine-5.15.12.tar.xz* && \
 	cd /opt/qtwebengine-5.15.12 && \
 	patch -Np1 -i ../qtwebengine-5.15.12-build_fixes-1.patch && \
-	patch -Np1 -i ../qtwebengine-5.15.12-ffmpeg5_fixes-1.patch && \
+	# patch -Np1 -i ../qtwebengine-5.15.12-ffmpeg5_fixes-1.patch && \
 	mkdir -pv .git src/3rdparty/chromium/.git && \
 	sed -e '/^MODULE_VERSION/s/5.*/5.15.8/' -i .qmake.conf && \
 	find -type f -name "*.pr[io]" | xargs sed -i -e 's|INCLUDEPATH += |&/usr/local/Qt-5.15.8/include |' && \
@@ -87,7 +87,7 @@ RUN \
 RUN \
 	rm -Rf /opt/qt-everywhere-src-6.4.2 && \
 	rm -Rf /opt/qt-everywhere-src-5.15.8 && \
-	rm -Rf /opt/qtwebengine-5.15.12
+	rm -Rf /opt/qtwebengine-5.15.12*
 
 # you can set your path to Qt5 or Qt6
 #ENV PATH="${PATH}:/usr/local/Qt-6.4.2/bin"
