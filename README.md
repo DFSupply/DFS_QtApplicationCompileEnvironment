@@ -60,8 +60,8 @@ jom
 Shared library copy (SAMPLE - your use may vary)
 ```
 c:\vcpkg\installed\x64-windows\tools\qt5\bin\windeployqt.exe %your_binary_directory%
-xcopy c:\vcpkg\intalled\x64-windows\bin\*.dll %your_binary_directory%\ /E/H
-xcopy c:\vcpkg\intalled\x64-windows\plugins\*.dll %your_binary_directory%\ /E/H
+xcopy c:\vcpkg\installed\x64-windows\bin\*.dll %your_binary_directory%\ /E/H
+xcopy c:\vcpkg\installed\x64-windows\plugins\*.dll %your_binary_directory%\ /E/H
 ```
 
 #### Important Notes

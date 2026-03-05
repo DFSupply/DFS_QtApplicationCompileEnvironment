@@ -7,16 +7,23 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022 as imagebase
 
 # Install chocolatey
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-	$Env:chocolateyVersion = '0.10.15' ; \
 	$Env:chocolateyUseWindowsCompression = 'false' ; \
-	"[Net.ServicePointManager]::SecurityProtocol = \"tls12, tls11, tls\"; iex ((New-Object System.Net.WebClient).DownloadString('http://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin" && \
+	"[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin" && \
 	choco feature enable -n=allowGlobalConfirmation
     
-# Install Curl
-RUN choco install curl --version=7.81.0
-
-# Install .net 4.8
-RUN choco install dotnetfx
+# Install build tools (consolidated to reduce image layers)
+RUN \
+	choco install curl --version=7.81.0 && \
+	choco install dotnetfx && \
+	choco install git && \
+	choco install jom && \
+	choco install strawberryperl && \
+	choco install ruby && \
+	choco install python3 && \
+	choco install sed && \
+	choco install ninja && \
+	choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' && \
+	choco install llvm
 
 # Install MSVC 2022
 RUN \
@@ -25,36 +32,6 @@ RUN \
 	choco install visualstudio2022-workload-universal --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
 	choco install visualstudio2022-workload-nativedesktop --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional " && \
 	choco install visualstudio2022-workload-universalbuildtools --ignore-package-exit-codes=3010 --execution-timeout=7200 --package-parameters "--allWorkloads --includeRecommended --includeOptional "
-
-# Install Git
-RUN choco install git
-		
-# Install JOM for multi-core builds
-RUN choco install jom
-
-# Install Perl
-RUN choco install strawberryperl
-
-# Install Ruby
-RUN choco install ruby
-
-# Install Python
-RUN choco install python2
-
-# Install Python3
-RUN choco install python3
-
-# Install sed
-RUN choco install sed
-
-# Install Ninja
-RUN choco install ninja
-
-# Install CMake
-RUN choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-# Install LLVM
-RUN choco install llvm
 
 # Setup build directories
 RUN \
@@ -96,4 +73,4 @@ SHELL ["powershell"]
 RUN Install-PackageProvider NuGet -Force
 RUN Install-Module -Name WintellectPowerShell -Force
 
-ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]]
+ENTRYPOINT ["C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat", "&&", "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
