@@ -24,21 +24,28 @@ RUN \
 # Build Qt6 Source (native builds)
 RUN \
 	cd /opt/ && \
-	wget -q https://download.qt.io/official_releases/qt/6.4/6.4.2/single/qt-everywhere-src-6.4.2.tar.xz && \
-	tar -xf qt-everywhere-src-6.4.2.tar.xz && \
-	rm qt-everywhere-src-6.4.2.tar.xz && \
-	cd /opt/qt-everywhere-src-6.4.2 && \
+	wget -q https://download.qt.io/archive/qt/6.10/6.10.2/single/qt-everywhere-src-6.10.2.tar.xz && \
+	tar -xf qt-everywhere-src-6.10.2.tar.xz && \
+	rm qt-everywhere-src-6.10.2.tar.xz && \
+	cd /opt/qt-everywhere-src-6.10.2 && \
 	./configure -opensource -confirm-license -release -webengine-proprietary-codecs -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	# sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
 	cmake --build . --parallel && \
 	cmake --install .
 
 # Build Qt5 Source (native builds)
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part000 /opt/
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part001 /opt/
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part002 /opt/
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part003 /opt/
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part004 /opt/
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part005 /opt/
+COPY qt-everywhere-opensource-src-5.15.8.tar.xz.part006 /opt/
 RUN \
 	cd /opt/ && \
-	wget -q https://download.qt.io/official_releases/qt/5.15/5.15.8/single/qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	cat qt-everywhere-opensource-src-5.15.8.tar.xz.part* >qt-everywhere-opensource-src-5.15.8.tar.xz && \
 	tar -xf qt-everywhere-opensource-src-5.15.8.tar.xz && \
-	rm qt-everywhere-opensource-src-5.15.8.tar.xz && \
+	rm -Rf qt-everywhere-opensource-src-5.15.8.tar.xz* && \
 	cd /opt/qt-everywhere-src-5.15.8 && \
 	./configure -opensource -confirm-license -release -skip qtwebengine -nomake tests -nomake examples -qt-zlib -qt-libjpeg -qt-libpng -qt-freetype -xcb -sql-psql -sql-sqlite && \
 	# sed -i -e 's|use_jumbo_build=true|use_jumbo_build=false|' ./qtwebengine/src/buildtools/config/common.pri && \
@@ -51,19 +58,19 @@ RUN \
 	yum install opus-devel libwebp-devel -y && \
 	yum install ffmpeg-devel -y
 
-# Qt5 will not build Qtwebengine (with python3)
+# Qt5 (5.15.8) will not build Qtwebengine (with python3)
 # build the newer 5.15.12 Qtwebengine and jam it back in 5.15.8
-COPY qtwebengine-5.15.12.tar.xz_aa /opt/
-COPY qtwebengine-5.15.12.tar.xz_ab /opt/
-COPY qtwebengine-5.15.12.tar.xz_ac /opt/
-COPY qtwebengine-5.15.12.tar.xz_ad /opt/
+COPY qtwebengine-5.15.12.tar.xz.part000 /opt/
+COPY qtwebengine-5.15.12.tar.xz.part001 /opt/
+COPY qtwebengine-5.15.12.tar.xz.part002 /opt/
+COPY qtwebengine-5.15.12.tar.xz.part003 /opt/
 COPY qtwebengine-5.15.12-build_fixes-1.patch /opt/
 COPY qtwebengine-5.15.12-ffmpeg5_fixes-1.patch /opt/
 RUN \
 	# Set our QT Path now, so we can build below
 	export PATH="${PATH}:/usr/local/Qt-5.15.8/bin" && \
 	cd /opt/ && \
-	cat qtwebengine-5.15.12.tar.xz_* >qtwebengine-5.15.12.tar.xz && \
+	cat qtwebengine-5.15.12.tar.xz.part* >qtwebengine-5.15.12.tar.xz && \
 	tar -xf qtwebengine-5.15.12.tar.xz && \
 	rm -Rf qtwebengine-5.15.12.tar.xz* && \
 	cd /opt/qtwebengine-5.15.12 && \
@@ -85,11 +92,11 @@ RUN \
 	
 # Cleanup
 RUN \
-	rm -Rf /opt/qt-everywhere-src-6.4.2 && \
+	rm -Rf /opt/qt-everywhere-src-6.10.2 && \
 	rm -Rf /opt/qt-everywhere-src-5.15.8 && \
 	rm -Rf /opt/qtwebengine-5.15.12*
 
 # you can set your path to Qt5 or Qt6
-#ENV PATH="${PATH}:/usr/local/Qt-6.4.2/bin"
+#ENV PATH="${PATH}:/usr/local/Qt-6.10.2/bin"
 ENV PATH="${PATH}:/usr/local/Qt-5.15.8/bin"
 ENTRYPOINT ["/bin/bash"]
