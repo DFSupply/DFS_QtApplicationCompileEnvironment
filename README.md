@@ -2,7 +2,7 @@
 Linux: [![Build Status](https://dev.azure.com/dfsupplyinc/DFS_QtApplicationCompileEnvironment/_apis/build/status/DFSupply.DFS_QtApplicationCompileEnvironment?branchName=main&jobName=Build%20Linux%20Container)](https://dev.azure.com/dfsupplyinc/DFS_QtApplicationCompileEnvironment/_build/latest?definitionId=1&branchName=main)  
 Windows: [![Build Status](https://dev.azure.com/dfsupplyinc/DFS_QtApplicationCompileEnvironment/_apis/build/status/DFSupply.DFS_QtApplicationCompileEnvironment?branchName=main&jobName=Build%20Windows%20Container)](https://dev.azure.com/dfsupplyinc/DFS_QtApplicationCompileEnvironment/_build/latest?definitionId=1&branchName=main)
 
-## Compile Environment(s) for Qt Applications
+## Compile Environment(s) for Qt5 Applications
 
 Capable of building for:
  - Linux x86_64

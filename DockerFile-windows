@@ -1,4 +1,4 @@
-# Compile Environment for Qt 5/6 Applications (windows)
+# Compile Environment for Qt 5 Applications (windows)
 # DF Supply, Inc.
 # Scott Moore
 # 2/26/2022
@@ -38,12 +38,11 @@ RUN \
 	mkdir build-env && \
 	mkdir b
 
-# vcpkg and required packages (Qt6)
+# vcpkg install
 RUN \
 	git clone https://github.com/microsoft/vcpkg && \
 	cd vcpkg && \
 	bootstrap-vcpkg.bat && \
-	vcpkg install qt:x64-windows --x-buildtrees-root=C:\b\ && \
 	vcpkg install openssl:x64-windows && \
 	vcpkg install zlib:x64-windows && \
 	vcpkg install libpq:x64-windows && \
@@ -54,15 +53,27 @@ RUN \
 	RMDIR downloads /S /Q && \
 	RMDIR c:\b /S /Q
 
-
-# Qt5
+# Qt5 - base with PostgreSQL plugin
 RUN \
 	cd vcpkg && \
 	vcpkg install qt5-base[postgresqlplugin]:x64-windows --x-buildtrees-root=c:\b\ && \
+	RMDIR buildtrees /S /Q && \
+	RMDIR downloads /S /Q && \
+	RMDIR c:\b /S /Q
+
+# Qt5 - webengine (long build, separate layer for checkpoint)
+RUN \
+	cd vcpkg && \
 	vcpkg install qt5-webengine:x64-windows --x-buildtrees-root=c:\b\ && \
+	RMDIR buildtrees /S /Q && \
+	RMDIR downloads /S /Q && \
+	RMDIR c:\b /S /Q
+
+# Qt5 - remaining modules
+RUN \
+	cd vcpkg && \
 	vcpkg install qt5:x64-windows --x-buildtrees-root=c:\b\ && \
 	vcpkg integrate install && \
-	# Cleanup to reduce image size
 	RMDIR packages /S /Q && \
 	RMDIR buildtrees /S /Q && \
 	RMDIR downloads /S /Q && \
